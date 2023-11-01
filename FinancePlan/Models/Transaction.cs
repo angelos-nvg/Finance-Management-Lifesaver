@@ -1,18 +1,21 @@
-﻿using System;
+﻿using FinancePlan.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinancePlan.Models
 {
-    public class Expenditures
+    public class Transaction
     {
         public int Id { get; set; }
         public int Amount { get; set; }
-        public string ExpenditureType { get; set; }
+        public TransactionType TransactionType { get; set; }
         public DateTime Date { get; set; }
-        public string Designation { get; set; }
+        public string Description { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
+        public int ReceiverAccountId { get; set; }
+        public Account ReceiverAccount { get; set; }
     }
 }
