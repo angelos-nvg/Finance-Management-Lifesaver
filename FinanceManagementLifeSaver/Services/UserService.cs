@@ -17,29 +17,41 @@ namespace FinanceManagementLifesaver.Services
         {
             _context = context;
         }
-        public void CreateUser(User user)
+        public async void CreateUser(User user)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteUser(int userId)
+        public async void DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            throw new NotImplementedException();
+            IEnumerable<User> users = await _context.Users.ToListAsync();
+            return users;
         }
 
-        public User GetUserById(int userId)
+        public async Task<User> GetUserById(int userId)
         {
-            throw new NotImplementedException();
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return user;
         }
 
-        public void UpdateUser(User user)
+        public async void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            User _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            _user.Email = user.Email;
+            _user.Password = user.Password;
+            _user.FirstName = user.FirstName;
+            _user.LastName = user.LastName;
+            _user.Accounts = user.Accounts;
+            _context.Users.Update(_user);
+            await _context.SaveChangesAsync();
         }
     }
 }
