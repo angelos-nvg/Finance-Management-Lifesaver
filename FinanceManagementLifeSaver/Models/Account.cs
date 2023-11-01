@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
-using FinancePlan.Enums;
+using FinanceManagementLifesaver.Enums;
 
 namespace FinanceManagementLifesaver.Models
 {
@@ -9,9 +9,7 @@ namespace FinanceManagementLifesaver.Models
         public int Id { get; set; }
         public decimal AccountBalance { get; set; }
         public AccountType AccountType { get; set; }
-        public int UserId { get; set; }
         public User User { get; set; }
-        public ICollection<Transaction> Expenditures { get; set; }
-        public ICollection<Income> Income { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }
