@@ -17,6 +17,6 @@ namespace FinanceManagementLifesaver.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Income> Incomes { get; set; }
-        public DbSet<Expenditures> Expenditures { get; set; }
+        public DbSet<Transaction> Expenditures { get; set; }
     }
 }
