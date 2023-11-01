@@ -1,4 +1,4 @@
-﻿namespace FinancePlan.Enums
+﻿namespace FinanceManagementLifesaver.Enums
 {
     public enum TransactionType
     {

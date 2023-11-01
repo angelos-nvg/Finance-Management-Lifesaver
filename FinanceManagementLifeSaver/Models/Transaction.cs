@@ -1,4 +1,4 @@
-﻿using FinancePlan.Enums;
+﻿using FinanceManagementLifesaver.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +13,7 @@ namespace FinanceManagementLifesaver.Models
         public TransactionType TransactionType { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public int AccountId { get; set; }
         public Account Account { get; set; }
-        public int ReceiverAccountId { get; set; }
         public Account ReceiverAccount { get; set; }
     }
 }
