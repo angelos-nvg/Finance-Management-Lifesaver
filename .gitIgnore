@@ -24,6 +24,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.sqlite
 
 /FinananceManagementLifesaver/bin/Debug/FinananceManagementLifesaver.exe
 /FinananceManagementLifesaver/bin/Debug/FinananceManagementLifesaver.pdb
@@ -36,6 +37,7 @@ pnpm-debug.log*
 /FinananceManagementLifesaver/obj/Debug//DesignTimeResolveAssemblyReferencesInput.cache
 /FinananceManagementLifesaver/obj/Debug/DesignTimeResolveAssemblyReferences.cache
 /FinananceManagementLifesaver/obj/Debug/netcoreapp3.1
-/FinananceManagementLifesaver/obj/Release/netcoreapp3.1
+/FinananceManagementLifesaver/obj/Debug/netcoreapp3.1/*
+/FinananceManagementLifesaver/obj/Release/netcoreapp3.1/*
 *.cache
 /.vs/FinanceManagementLifesaver/v17/.suo
