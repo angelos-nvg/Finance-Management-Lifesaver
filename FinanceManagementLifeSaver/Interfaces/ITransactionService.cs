@@ -8,10 +8,10 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface ITransactionService
     {
-        Task<Transaction> GetTransactionById(int transactionId);
-        Task<Transaction> GetTransactionByAccountId(int accountId);
-        void CreateTransaction(Transaction transaction);
-        void UpdateTransaction(Transaction transaction);
-        void DeleteTransaction(int transactionId);
+        Task<ServiceResponse<Transaction>> CreateTransaction(Transaction transaction);
+        Task<ServiceResponse<Transaction>> GetTransactionById(int transactionId);
+        Task<ServiceResponse<Transaction>> GetTransactionByAccountId(int accountId);
+        Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction);
+        Task<ServiceResponse<Transaction>> DeleteTransaction(int transactionId);
     }
 }

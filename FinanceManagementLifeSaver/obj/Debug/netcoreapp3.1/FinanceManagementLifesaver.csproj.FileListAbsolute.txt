@@ -1,0 +1,7 @@
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.csproj.AssemblyReference.cache
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.AssemblyInfoInputs.cache
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.AssemblyInfo.cs
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.csproj.CoreCompileInputs.cache
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\atheodorou\source\repos\Finance-Management-Lifesaver\FinanceManagementLifeSaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.MvcApplicationPartsAssemblyInfo.cache
