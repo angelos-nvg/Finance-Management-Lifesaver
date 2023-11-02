@@ -35,6 +35,14 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
+        public async Task<ServiceResponse<UEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
+        {
+            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            IEnumerable<Transaction> transactions = await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId);
+            response.Data = transaction;
+            return response;
+        }
+
         public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
