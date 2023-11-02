@@ -24,7 +24,7 @@ namespace FinanceManagementLifesaver.Controllers
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
-        [HttpGet("{user}")]
+        [HttpGet("{name}/{password}")]
         public IActionResult Get(string name, string password)
         {
             var user = _userService.GetUserByNameAndPassword(name, password);

@@ -18,13 +18,13 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _accountService = accountService;
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<Account>> Get()
+        [HttpGet("{userId}")]
+        public ActionResult<IEnumerable<Account>> Get(int userId)
         {
-            var accounts = _accountService.GetAccountsByUserId();
+            var accounts = _accountService.GetAccountsByUserId(userId);
             return Ok(accounts);
         }
-        [HttpGet("{Accounts}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var account = _accountService.GetAccountById(id);
