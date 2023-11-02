@@ -38,4 +38,3 @@ pnpm-debug.log*
 /FinananceManagementLifesaver/obj/Debug/netcoreapp3.1
 /FinananceManagementLifesaver/obj/Release/netcoreapp3.1
 *.cache
-/.vs/FinancePlan/v17/.suo
