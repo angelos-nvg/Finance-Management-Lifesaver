@@ -29,7 +29,7 @@ namespace FinanceManagementLifesaver.Services
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
 			await _context.Accounts.AddAsync(account);
 			await _context.SaveChangesAsync();
-			response.Data = await _mapper.Map<AccountSaveDTI>(_context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id));
+			response.Data = await _mapper.Map<AccountSaveDTO>(_context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id));
 			return response;
 		}
 
