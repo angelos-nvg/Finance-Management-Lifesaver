@@ -43,6 +43,14 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
+        public async Task<IEnumerable<ServiceResponse<Account>>> GetAccountById(int id)
+        {
+            ServiceResponse<Account> response = new ServiceResponse<Account>();
+            Account account = await _context.Accounts(u => u.Id == id);
+            response.Data = account;
+            return response;
+        }
+
         public async Task<ServiceResponse<Account>> UpdateAccount(Account account)
         {
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
