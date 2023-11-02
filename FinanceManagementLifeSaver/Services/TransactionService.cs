@@ -13,17 +13,23 @@ namespace FinanceManagementLifesaver.Services
     public class TransactionService : ITransactionService
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
         public TransactionService(DataContext context)
         {
             _context = context;
+        }
+
+        public TransactionService(IMapper mapper)
+        {
+            _mapper = mapper;
         }
         public async Task<ServiceResponse<Transaction>> CreateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
-            response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+            response.Data = await _mapper.Map<TransactionSaveDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id));
             return response;
         }
 
@@ -46,7 +52,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+            Transaction _transaction = await _mapper.Map<TransactionSaveDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id));
             _transaction.Amount = transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
