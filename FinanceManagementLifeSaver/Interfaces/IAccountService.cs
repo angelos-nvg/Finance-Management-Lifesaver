@@ -8,9 +8,9 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface IAccountService
     {
-        Task<Account> GetAccountById(int accountId);
-        void CreateAccount(Account account);
-        void UpdateAccount(Account account);
-        void DeleteAccount(int accountId);
+        Task<ServiceResponse<Account>> CreateAccount(Account account);
+        Task<ServiceResponse<Account>> GetAccountById(int accountId);
+        Task<ServiceResponse<Account>> UpdateAccount(Account account);
+        Task<ServiceResponse<Account>> DeleteAccount(int accountId);
     }
 }
