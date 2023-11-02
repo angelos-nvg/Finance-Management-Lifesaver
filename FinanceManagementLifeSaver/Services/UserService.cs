@@ -1,4 +1,5 @@
-﻿using FinanceManagementLifesaver.Data;
+﻿using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using Microsoft.AspNetCore.Identity;
@@ -45,18 +46,18 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<User>> GetUserById(int userId)
+        public async Task<ServiceResponse<User>> GetUserByEmailAndPassword(UserLoginDTO userLoginDTO)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email && u.password == userLoginDTO.Password);
             response.Data = user;
             return response;
         }
 
-        public async Task<ServiceResponse<User>> UpdateUser(User user)
+        public async Task<ServiceResponse<User>> UpdateUser(UserSaveDTO userSaveDTO)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
-            User _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            UserSaveDTO _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userSaveDTO.Id);
             _user.Email = user.Email;
             _user.Password = user.Password;
             _user.FirstName = user.FirstName;

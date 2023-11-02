@@ -3,6 +3,7 @@ using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,22 @@ namespace FinanceManagementLifesaver.Services
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
             Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId);
 			response.Data = account;
+            return response;
+        }
+
+        public async Task<IEnumerable<ServiceResponse<Account>>> GetAccountsByUserId(int userId)
+        {
+            ServiceResponse<Account> response = new ServiceResponse<Account>();
+            IEnumerable<Account> accounts = await _context.Accounts(u => u.Id == userId).ToListAsync();
+            response.Data = accounts;
+            return response;
+        }
+
+        public async Task<IEnumerable<ServiceResponse<Account>>> GetAccountById(int id)
+        {
+            ServiceResponse<Account> response = new ServiceResponse<Account>();
+            Account account = await _context.Accounts(u => u.Id == id);
+            response.Data = account;
             return response;
         }
 

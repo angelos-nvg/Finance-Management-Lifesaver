@@ -30,15 +30,23 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<Transaction>> GetTransactionById(int transactionId)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);
             response.Data = transaction;
+            return response;
+        }
+
+        public async Task<ServiceResponse<UEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
+        {
+            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            IEnumerable<Transaction> transactions = await _context.Transactions.FirstOrDefaultAsync(u => u.accountId == accountId).ToListAsync();
+            response.Data = transactions;
             return response;
         }
 
         public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);
+            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
             _transaction.Amount = transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
