@@ -8,10 +8,10 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface IUserService
     {
-        Task<User> GetUserById(int userId);
-        Task<IEnumerable<User>> GetAllUsers();
-        void CreateUser(User user);
-        void UpdateUser(User user);
-        void DeleteUser(int userId);
+        Task<ServiceResponse<User>> CreateUser(User user);
+        Task<ServiceResponse<User>> GetUserById(int userId);
+        Task<ServiceResponse<User>> UpdateUser(User user);
+        Task<ServiceResponse<User>> DeleteUser(int userId);
+        Task<ServiceResponse<IEnumerable<User>>> GetAllUsers();
     }
 }
