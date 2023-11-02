@@ -24,15 +24,15 @@ namespace FinanceManagementLifesaver.Controllers
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{email}/{password}")]
+        public IActionResult Get(string email, string password)
         {
-            var user = _userService.GetUserById(id);
+            var user = _userService.GetUserByEmailAndPassword(name, password);
             if (user == null)
             {
-                return NotFound(); // 404 Not Found, wenn der Benutzer nicht existiert
+                return NotFound();
             }
-            return Ok(user); // 200 OK mit dem gefundenen Benutzer        }
+            return Ok(user);
         }
     }
 }
