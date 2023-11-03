@@ -1,5 +1,6 @@
-﻿using System.Collections
-using FinanceManagementLifesaver.Models
+﻿using System.Collections;
+using System.Collections.Generic;
+using FinanceManagementLifesaver.Models;
 namespace FinanaceManagementLifesaver.DTO
 {
     public class UserSaveDTO
@@ -8,6 +9,6 @@ namespace FinanaceManagementLifesaver.DTO
         public string Password;
         public string FirstName;
         public string LastName;
-        public <IEnumerable<Account>> Accounts;
+        public ICollection<Account> Accounts;
     }
 }
