@@ -13,7 +13,15 @@ namespace FinanceManagementLifesaver.Data
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Account>()
+                .HasMany(t => t.Transactions);
+            modelBuilder.Entity<Transaction>()
+                .Ignore(a => a.ReceiverAccount);
 
+        }
+        public DataContext() { }
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
