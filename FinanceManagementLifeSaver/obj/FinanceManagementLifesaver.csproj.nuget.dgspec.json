@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lheidland\\Source\\Repos\\Finance-Management-Lifesaver\\FinanceManagementLifeSaver\\FinanceManagementLifesaver.csproj": {}
+    "C:\\Users\\lheidland\\source\\repos\\FML\\FinanceManagementLifesaver\\FinanceManagementLifesaver.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lheidland\\Source\\Repos\\Finance-Management-Lifesaver\\FinanceManagementLifeSaver\\FinanceManagementLifesaver.csproj": {
+    "C:\\Users\\lheidland\\source\\repos\\FML\\FinanceManagementLifesaver\\FinanceManagementLifesaver.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lheidland\\Source\\Repos\\Finance-Management-Lifesaver\\FinanceManagementLifeSaver\\FinanceManagementLifesaver.csproj",
+        "projectUniqueName": "C:\\Users\\lheidland\\source\\repos\\FML\\FinanceManagementLifesaver\\FinanceManagementLifesaver.csproj",
         "projectName": "FinanceManagementLifesaver",
-        "projectPath": "C:\\Users\\lheidland\\Source\\Repos\\Finance-Management-Lifesaver\\FinanceManagementLifeSaver\\FinanceManagementLifesaver.csproj",
+        "projectPath": "C:\\Users\\lheidland\\source\\repos\\FML\\FinanceManagementLifesaver\\FinanceManagementLifesaver.csproj",
         "packagesPath": "C:\\Users\\lheidland\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lheidland\\Source\\Repos\\Finance-Management-Lifesaver\\FinanceManagementLifeSaver\\obj\\",
+        "outputPath": "C:\\Users\\lheidland\\source\\repos\\FML\\FinanceManagementLifesaver\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
