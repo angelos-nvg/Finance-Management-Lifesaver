@@ -50,6 +50,11 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                response.Success = false;
+                return response;
+            }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             response.Data = user;
