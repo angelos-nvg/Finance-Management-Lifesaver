@@ -30,7 +30,7 @@ namespace FinanceManagementLifesaver.Services
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
-            response.Data = await _mapper.Map<TransactionSaveDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id));
+            response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
             return response;
         }
 
@@ -44,16 +44,16 @@ namespace FinanceManagementLifesaver.Services
 
         public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            IEnumerable<Transaction> transactions = await _context.Transactions.FirstOrDefaultAsync(u => u.accountId == accountId).ToListAsync();
-            response.Data = (Transaction)transactions;
+            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
+            IEnumerable<Transaction> transactions = (IEnumerable<Transaction>)await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId);
+            response.Data = transactions;
             return response;
         }
 
         public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction _transaction = await _mapper.Map<TransactionSaveDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id));
+            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
             _transaction.Amount = transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
