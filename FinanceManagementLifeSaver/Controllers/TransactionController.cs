@@ -19,13 +19,13 @@ namespace FinanceManagementLifesaver.Controllers
             _transactionService = transactionService;
         }
         [HttpGet("{accountId}")]
-        public ActionResult<IEnumerable<Transaction>> Get(int accountId)
+        public ActionResult<IEnumerable<Transaction>> GetTransactionsByAccountId(int accountId)
         {
             var transactions = _transactionService.GetTransactionsByAccountId(accountId);
             return Ok(transactions);
         }
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetTransactionById(int id)
         {
             var transaction = _transactionService.GetTransactionById(id);
             if (transaction == null)

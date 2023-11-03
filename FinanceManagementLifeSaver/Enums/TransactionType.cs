@@ -4,8 +4,8 @@ namespace FinanceManagementLifesaver.Enums
 {
 	public enum TransactionType
 	{
-        Type1,
-        Type2,
-        Type3
-    }
+		Type1,
+		Type2,
+		Type3
+	}
 }
