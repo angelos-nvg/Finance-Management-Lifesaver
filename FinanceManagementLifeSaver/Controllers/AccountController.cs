@@ -1,5 +1,6 @@
 ﻿using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,20 +20,24 @@ namespace FinanceManagementLifesaver.Controllers
             _accountService = accountService;
         }
         [HttpGet("{userId}")]
-        public ActionResult<IEnumerable<Account>> GetAccountsByUserId(int userId)
+        public async Task<ActionResult<ServiceResponse<IEnumerable<Account>>>> GetAccountsByUserId(int userId)
         {
-            var accounts = _accountService.GetAccountsByUserId(userId);
-            return Ok(accounts);
+            ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAccountsByUserId(userId);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
         }
         [HttpGet("{id}")]
-        public IActionResult GetAccountById(int id)
+        public async Task<ActionResult<ServiceResponse<Account>>> GetAccountById(int id)
         {
-            var account = _accountService.GetAccountById(id);
-            if (account == null)
+            ServiceResponse<Account> response = await _accountService.GetAccountById(id);
+            if (!response.Success)
             {
-                return NotFound(); // 404 Not Found, wenn der Benutzer nicht existiert
+                return NotFound(); // 404 Not Found, wenn der Account nicht existiert
             }
-            return Ok(account); // 200 OK mit dem gefundenen Benutzer
+            return Ok(response); // 200 OK mit dem gefundenen Account
         }
     }
 }
