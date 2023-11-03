@@ -25,8 +25,17 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+FinanceManagementLifeSaver/obj/FinanceManagementLifesaver.csproj.nuget.dgspec.json
+FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.GeneratedMSBuildEditorConfig.editorconfig
+FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.pdb
+FinanceManagementLifeSaver/obj/FinanceManagementLifesaver.csproj.nuget.g.props
+FinanceManagementLifeSaver/obj/project.assets.json
+FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.deps.json
+FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.dll
 /FinananceManagementLifesaver/bin/Debug/FinananceManagementLifesaver.exe
 /FinananceManagementLifesaver/bin/Debug/FinananceManagementLifesaver.pdb
+FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.runtimeconfig.dev.json
+FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.pdb
 /FinananceManagementLifesaver/obj/Debug/FinananceManagementLifesaver.csproj.AssemblyReference.cache
 /FinananceManagementLifesaver/obj/Debug/FinananceManagementLifesaver.csproj.CoreCompileInputs.cache
 /FinananceManagementLifesaver/obj/Debug/FinananceManagementLifesaver.csproj.FileListAbsolute.txt

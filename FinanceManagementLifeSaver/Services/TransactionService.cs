@@ -1,12 +1,11 @@
 using AutoMapper;
+using FinanaceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Services
@@ -16,49 +15,43 @@ namespace FinanceManagementLifesaver.Services
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public TransactionService(DataContext context)
+        public TransactionService(DataContext context, IMapper mapper)
         {
             _context = context;
-        }
-
-        public TransactionService(IMapper mapper)
-        {
             _mapper = mapper;
         }
-        public async Task<ServiceResponse<Transaction>> CreateTransaction(Transaction transaction)
-        {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            await _context.Transactions.AddAsync(transaction);
-            await _context.SaveChangesAsync();
-            response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
-            return response;
-        }
 
-        public async Task<ServiceResponse<Transaction>> GetTransactionById(int transactionId)
+        public async Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);
+            ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
+            await _context.Transactions.AddAsync(_mapper.Map< TransactionSaveDTO, Transaction>(transaction));
+            await _context.SaveChangesAsync();
             response.Data = transaction;
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
+        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(int transactionId)
         {
-            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            IEnumerable<Transaction> transactions = (IEnumerable<Transaction>)await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId);
+            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
+            response.Data = _mapper.Map<TransactionDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId));
+            return response;
+        }
+
+        public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(int accountId)
+        {
+            ServiceResponse<IEnumerable<TransactionDTO>> response = new ServiceResponse<IEnumerable<TransactionDTO>>();
+            IEnumerable<TransactionDTO> transactions = (IEnumerable<TransactionDTO>)await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId);
             response.Data = transactions;
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
+        public async Task<ServiceResponse<TransactionDTO>> UpdateTransaction(TransactionDTO transaction)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
             Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
-            _transaction.Amount = transaction.Amount;
+            _transaction.Amount = (int)transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
-            _transaction.Account = transaction.Account;
-            _transaction.ReceiverAccount = transaction.ReceiverAccount;
             await _context.SaveChangesAsync();
             response.Data = transaction;
             return response;

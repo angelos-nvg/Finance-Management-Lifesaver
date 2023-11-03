@@ -18,36 +18,33 @@ namespace FinanceManagementLifesaver.Services
 		private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public AccountService(DataContext context)
-		{
-			_context = context;
-		}
-
-        public AccountService(IMapper mapper)
+        public AccountService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
-        public async Task<ServiceResponse<Account>> CreateAccount(Account account)
+
+        public async Task<ServiceResponse<AccountSaveDTO>> CreateAccount(AccountSaveDTO account)
 		{
-			ServiceResponse<Account> response = new ServiceResponse<Account>();
-			await _context.Accounts.AddAsync(account);
+			ServiceResponse<AccountSaveDTO> response = new ServiceResponse<AccountSaveDTO>();
+			await _context.Accounts.AddAsync(_mapper.Map<AccountSaveDTO, Account>(account));
 			await _context.SaveChangesAsync();
-			response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
+            response.Data = account;
 			return response;
 		}
 
-        public async Task<ServiceResponse<Account>> GetAccountById(int accountId)
+        public async Task<ServiceResponse<AccountDTO>> GetAccountById(int accountId)
         {
-			ServiceResponse<Account> response = new ServiceResponse<Account>();
+			ServiceResponse<AccountDTO> response = new ServiceResponse<AccountDTO>();
             Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId);
-			response.Data = account;
+            response.Data = _mapper.Map<AccountDTO>(_context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId));
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(int userId)
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId)
         {
-            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
-            IEnumerable<Account> accounts = (IEnumerable<Account>)await _context.Accounts.Select(u => u.Id == userId).ToListAsync();
+            ServiceResponse<IEnumerable<AccountDTO>> response = new ServiceResponse<IEnumerable<AccountDTO>>();
+            IEnumerable<AccountDTO> accounts = (IEnumerable<AccountDTO>)await _context.Accounts.Select(u => u.Id == userId).ToListAsync();
             response.Data = accounts;
             return response;
         }
