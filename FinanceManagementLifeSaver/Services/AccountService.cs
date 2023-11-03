@@ -3,6 +3,7 @@ using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,17 +13,23 @@ namespace FinanceManagementLifesaver.Services
 	public class AccountService : IAccountService
 	{
 		private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-		public AccountService(DataContext context)
+        public AccountService(DataContext context)
 		{
 			_context = context;
 		}
-		public async Task<ServiceResponse<Account>> CreateAccount(Account account)
+
+        public AccountService(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+        public async Task<ServiceResponse<Account>> CreateAccount(Account account)
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
 			await _context.Accounts.AddAsync(account);
 			await _context.SaveChangesAsync();
-			response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
+			response.Data = await _mapper.Map<AccountSaveDTO>(_context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id));
 			return response;
 		}
 
@@ -34,10 +41,18 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
+        public async Task<IEnumerable<ServiceResponse<Account>>> GetAccountsByUserId(int userId)
+        {
+            ServiceResponse<Account> response = new ServiceResponse<Account>();
+            IEnumerable<Account> accounts = await _context.Accounts(u => u.Id == userId).ToListAsync();
+            response.Data = accounts;
+            return response;
+        }
+
         public async Task<ServiceResponse<Account>> UpdateAccount(Account account)
         {
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
-            Account _account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == account.Id);
+            Account _account = await _mapper.Map<AccountSaveDTO>(_context.Accounts.FirstOrDefaultAsync(u => u.Id == account.Id));
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.User = account.User;

@@ -7,5 +7,6 @@ namespace FinanaceManagementLifesaver.DTO
         public string Password;
         public string FirstName;
         public string LastName;
+        public <IEnumerable<Account>> Accounts;
     }
 }
