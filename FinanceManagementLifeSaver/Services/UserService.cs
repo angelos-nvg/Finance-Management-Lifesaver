@@ -19,19 +19,23 @@ namespace FinanceManagementLifesaver.Services
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public UserService(DataContext context)
-        {
-            _context = context;
-        }
+        public UserService(DataContext context, IMapper mapper)
+        { 
+            _context = context; 
+            _mapper = mapper; 
+        } 
 
-        public UserService(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
-
-        public async Task<ServiceResponse<User>> CreateUser(User user)
+        public async Task<ServiceResponse<User>> CreateUser(UserSaveDTO _user)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
+            User user = new User
+            {
+                Email = _user.Email,
+                Password = _user.Password,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                Accounts = _user.Accounts
+            };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             response.Data = user;
@@ -42,6 +46,11 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                response.Success = false;
+                return response;
+            }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             response.Data = user;

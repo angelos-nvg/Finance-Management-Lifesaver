@@ -1,7 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\FinanceManagementLifesaver"
+    "\\FinanceManagementLifeSaver",
+    "\\FinanceManagementLifeSaver\\Controllers",
+    "\\FinanceManagementLifeSaver\\Data",
+    "\\FinanceManagementLifeSaver\\DTO",
+    "\\FinanceManagementLifeSaver\\DTO\\AccountDTO",
+    "\\FinanceManagementLifeSaver\\DTO\\TransactionDTO",
+    "\\FinanceManagementLifeSaver\\DTO\\UserDTO",
+    "\\FinanceManagementLifeSaver\\Enums",
+    "\\FinanceManagementLifeSaver\\Interfaces"
   ],
+  "SelectedNode": "\\FinanceManagementLifeSaver",
   "PreviewInSolutionExplorer": false
 }

@@ -1,6 +1,7 @@
 ﻿using FinanaceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,20 +21,54 @@ namespace FinanceManagementLifesaver.Controllers
             _userService = userService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<User>> Get()
+        public async Task<ActionResult<IEnumerable<User>>> Get()
         {
-            var users = _userService.GetAllUsers();
-            return Ok(users);
+            ServiceResponse<IEnumerable<User>> response = await _userService.GetAllUsers();
+            return Ok(response);
         }
         [HttpGet("{email}/{password}")]
-        public IActionResult Get(UserLoginDTO userLoginDTO)
+        public async Task<IActionResult> Get(string email, string password)
         {
-            var user = _userService.GetUserByEmailAndPassword(userLoginDTO);
-            if (user == null)
+            ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(
+                new UserLoginDTO{ 
+                    Email = email, 
+                    Password = password
+                });
+            if (!response.Success)
             {
                 return NotFound();
             }
-            return Ok(user);
+            return Ok(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post(UserSaveDTO userSaveDTO)
+        {
+            ServiceResponse<User> response = await _userService.CreateUser(userSaveDTO);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Created(Request.HttpContext.ToString() , response);
+        }
+        [HttpPut]
+        public async Task<IActionResult> Put(User user)
+        {
+            ServiceResponse<User> response = await _userService.UpdateUser(user);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            ServiceResponse<User> response = await _userService.DeleteUser(id);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }
