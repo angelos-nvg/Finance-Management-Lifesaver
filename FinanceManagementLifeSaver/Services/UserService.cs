@@ -29,9 +29,17 @@ namespace FinanceManagementLifesaver.Services
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<User>> CreateUser(User user)
+        public async Task<ServiceResponse<User>> CreateUser(UserSaveDTO _user)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
+            User user = new User
+            {
+                Email = _user.Email,
+                Password = _user.Password,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                Accounts = _user.Accounts
+            };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             response.Data = user;

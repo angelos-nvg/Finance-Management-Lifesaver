@@ -1,6 +1,7 @@
 ﻿using FinanaceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,16 @@ namespace FinanceManagementLifesaver.Controllers
                 return NotFound();
             }
             return Ok(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post(UserSaveDTO userSaveDTO)
+        {
+            ServiceResponse<User> response = await _userService.CreateUser(userSaveDTO);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Created(Request.HttpContext.ToString() , response);
         }
     }
 }
