@@ -2,13 +2,10 @@
 
 namespace FinanceManagementLifesaver.Enums
 {
-	public class AccountType
+	public enum AccountType
 	{
-		public enum AccountType()
-		{
-			Tgk,
-			Sk,
-			Ga
-		}
-	}
+        Tgk,
+        Sk,
+        Ga
+    }
 }
