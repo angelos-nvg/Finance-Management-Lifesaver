@@ -16,15 +16,12 @@ namespace FinanceManagementLifesaver.Services
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public TransactionService(DataContext context)
+        public TransactionService(DataContext context, IMapper mapper)
         {
             _context = context;
-        }
-
-        public TransactionService(IMapper mapper)
-        {
             _mapper = mapper;
         }
+
         public async Task<ServiceResponse<Transaction>> CreateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
