@@ -4,8 +4,8 @@ namespace FinanceManagementLifesaver.Enums
 {
 	public enum AccountType
 	{
-        Tgk,
-        Sk,
-        Ga
-    }
+		Tgk,
+		Sk,
+		Ga
+	}
 }

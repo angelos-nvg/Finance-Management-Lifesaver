@@ -1,3 +1,4 @@
+using AutoMapper;
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
@@ -41,11 +42,11 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<UEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
+        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             IEnumerable<Transaction> transactions = await _context.Transactions.FirstOrDefaultAsync(u => u.accountId == accountId).ToListAsync();
-            response.Data = transactions;
+            response.Data = (Transaction)transactions;
             return response;
         }
 

@@ -1,4 +1,5 @@
-﻿using FinanceManagementLifesaver.Interfaces;
+﻿using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,9 +26,9 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(users);
         }
         [HttpGet("{email}/{password}")]
-        public IActionResult Get(string email, string password)
+        public IActionResult Get(UserLoginDTO userLoginDTO)
         {
-            var user = _userService.GetUserByEmailAndPassword(name, password);
+            var user = _userService.GetUserByEmailAndPassword(userLoginDTO);
             if (user == null)
             {
                 return NotFound();
