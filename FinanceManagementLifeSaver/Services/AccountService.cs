@@ -1,6 +1,9 @@
+using AutoMapper;
+using FinanaceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -41,7 +44,7 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<IEnumerable<ServiceResponse<Account>>> GetAccountsByUserId(int userId)
+        public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(int userId)
         {
             ServiceResponse<Account> response = new ServiceResponse<Account>();
             IEnumerable<Account> accounts = await _context.Accounts(u => u.Id == userId).ToListAsync();
