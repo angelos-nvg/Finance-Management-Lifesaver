@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\FinanceManagementLifesaver"
+    "\\FinanceManagementLifeSaver",
+    "\\FinanceManagementLifeSaver\\Controllers",
+    "\\FinanceManagementLifeSaver\\DTO",
+    "\\FinanceManagementLifeSaver\\DTO\\AccountDTO",
+    "\\FinanceManagementLifeSaver\\DTO\\TransactionDTO",
+    "\\FinanceManagementLifeSaver\\DTO\\UserDTO",
+    "\\FinanceManagementLifeSaver\\Interfaces",
+    "\\FinanceManagementLifeSaver\\Models",
+    "\\FinanceManagementLifeSaver\\Services"
   ],
-  "SelectedNode": "\\FinanceManagementLifesaver\\Startup.cs",
+  "SelectedNode": "\\FinanceManagementLifeSaver\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }
