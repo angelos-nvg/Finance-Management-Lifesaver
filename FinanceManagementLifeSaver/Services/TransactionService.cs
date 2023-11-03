@@ -4,6 +4,7 @@ using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -47,8 +48,8 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionDTO>> UpdateTransaction(TransactionDTO transaction)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            TransactionDTO _transaction = _mapper.Map<TransactionDTO, Transaction>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id));
-            _transaction.Amount = transaction.Amount;
+            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+            _transaction.Amount = (int)transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
             await _context.SaveChangesAsync();
