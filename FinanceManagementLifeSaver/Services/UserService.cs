@@ -32,7 +32,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<User>> CreateUser(User user)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
-            await _mapper.Map<UserSaveDTO>(_context.Users.AddAsync(user));
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             response.Data = user;
             return response;
@@ -50,7 +50,7 @@ namespace FinanceManagementLifesaver.Services
 
         public async Task<ServiceResponse<IEnumerable<User>>> GetAllUsers()
         {
-            ServiceResponse<User> response = new ServiceResponse<User>();
+            ServiceResponse<IEnumerable<User>> response = new ServiceResponse<IEnumerable<User>>();
             IEnumerable<User> users = await _context.Users.ToListAsync();
             response.Data = users;
             return response;
@@ -59,7 +59,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<User>> GetUserByEmailAndPassword(UserLoginDTO userLoginDTO)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email && u.password == userLoginDTO.Password);
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email && u.Password == userLoginDTO.Password);
             response.Data = user;
             return response;
         }
@@ -67,7 +67,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<User>> UpdateUser(User user)
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
-            User _user = await _mapper.Map<UserSaveDTO>(_context.Users.FirstOrDefaultAsync(u => u.Id == user.Id));
+            User _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
             _user.Email = user.Email;
             _user.Password = user.Password;
             _user.FirstName = user.FirstName;

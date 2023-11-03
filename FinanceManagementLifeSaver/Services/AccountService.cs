@@ -32,7 +32,7 @@ namespace FinanceManagementLifesaver.Services
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
 			await _context.Accounts.AddAsync(account);
 			await _context.SaveChangesAsync();
-			response.Data = await _mapper.Map<AccountSaveDTO>(_context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id));
+			response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
 			return response;
 		}
 
@@ -46,8 +46,8 @@ namespace FinanceManagementLifesaver.Services
 
         public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(int userId)
         {
-            ServiceResponse<Account> response = new ServiceResponse<Account>();
-            IEnumerable<Account> accounts = await _context.Accounts(u => u.Id == userId).ToListAsync();
+            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
+            IEnumerable<Account> accounts = (IEnumerable<Account>)await _context.Accounts.Select(u => u.Id == userId).ToListAsync();
             response.Data = accounts;
             return response;
         }
@@ -55,14 +55,14 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<Account>> UpdateAccount(Account account)
         {
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
-            Account _account = await _mapper.Map<AccountSaveDTO>(_context.Accounts.FirstOrDefaultAsync(u => u.Id == account.Id));
+            Account _account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == account.Id);
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.User = account.User;
             _account.Transactions = account.Transactions;
             _context.Accounts.Update(_account);
             await _context.SaveChangesAsync();
-            response.Data = await _context.Account.FirstOrDefaultAsync(a => a.Id == account.Id);
+            response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
 			return response;
         }
 
