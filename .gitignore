@@ -37,5 +37,9 @@ pnpm-debug.log*
 /FinananceManagementLifesaver/obj/Debug/DesignTimeResolveAssemblyReferences.cache
 /FinananceManagementLifesaver/obj/Debug/netcoreapp3.1
 /FinananceManagementLifesaver/obj/Release/netcoreapp3.1
+<<<<<<< HEAD
+*.cache
+=======
 *.cache
 /.vs/FinanceManagementLifesaver/v17/.suo
+>>>>>>> origin/main
