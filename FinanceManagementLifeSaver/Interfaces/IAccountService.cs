@@ -10,7 +10,7 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface IAccountService
     {
-        Task<ServiceResponse<AccountSaveDTO>> CreateAccount(AccountSaveDTO account);
+        Task<ServiceResponse<Account>> CreateAccount(AccountSaveDTO account);
         Task<ServiceResponse<AccountDTO>> GetAccountById(int accountId);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId);
         Task<ServiceResponse<Account>> UpdateAccount(Account account);

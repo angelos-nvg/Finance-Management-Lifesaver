@@ -24,13 +24,14 @@ namespace FinanceManagementLifesaver.Services
             _context = context;
         }
 
-        public async Task<ServiceResponse<AccountSaveDTO>> CreateAccount(AccountSaveDTO account)
+        public async Task<ServiceResponse<Account>> CreateAccount(AccountSaveDTO account)
 		{
-			ServiceResponse<AccountSaveDTO> response = new ServiceResponse<AccountSaveDTO>();
-			await _context.Accounts.AddAsync(_mapper.Map<AccountSaveDTO, Account>(account));
+			ServiceResponse<Account> response = new ServiceResponse<Account>();
+            Account _account = _mapper.Map<AccountSaveDTO, Account>(account);
+            await _context.Accounts.AddAsync(_account);
 			await _context.SaveChangesAsync();
-            response.Data = account;
-			return response;
+            response.Data = _account;
+            return response;
 		}
 
         public async Task<ServiceResponse<AccountDTO>> GetAccountById(int accountId)
@@ -44,8 +45,13 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId)
         {
             ServiceResponse<IEnumerable<AccountDTO>> response = new ServiceResponse<IEnumerable<AccountDTO>>();
-            IEnumerable<AccountDTO> accounts = (IEnumerable<AccountDTO>)await _context.Accounts.Select(u => u.Id == userId).ToListAsync();
-            response.Data = accounts;
+            IEnumerable<Account> accounts = (IEnumerable<Account>)await _context.Accounts.Select(u => u.Id == userId).ToListAsync();
+            if (!accounts.Any())
+            {
+                response.Success = false;
+                return response;
+            }
+            response.Data = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountDTO>>(accounts);
             return response;
         }
 
@@ -67,9 +73,14 @@ namespace FinanceManagementLifesaver.Services
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
 			Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId);
+            if (account == null)
+            {
+                response.Success = false;
+                return response;
+            }
 			_context.Accounts.Remove(account);
-			response.Data = account;
-			await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            response.Data = account;
 			return response;
 		}
 	}

@@ -31,6 +31,7 @@ namespace FinanceManagementLifesaver
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
