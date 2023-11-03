@@ -1,4 +1,4 @@
-using FinananceManagementLifesaver.Enums
+using FinanceManagementLifesaver.Enums;
 namespace FinanaceManagementLifesaver.DTO 
 {
 	public class AccountDTO {

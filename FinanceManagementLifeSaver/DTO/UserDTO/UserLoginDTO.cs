@@ -1,5 +1,4 @@
-﻿using FinananceManagementLifesaver.Enums
-namespace FinanaceManagementLifesaver.DTO
+﻿namespace FinanaceManagementLifesaver.DTO
 {
     public class UserLoginDTO
     {
