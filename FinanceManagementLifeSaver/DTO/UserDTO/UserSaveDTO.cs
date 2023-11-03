@@ -1,5 +1,5 @@
-﻿using System.Collections
-using FinanceManagementLifesaver.Models
+﻿using System.Collections;
+using FinanceManagementLifesaver.Models;
 namespace FinanaceManagementLifesaver.DTO
 {
     public class UserSaveDTO

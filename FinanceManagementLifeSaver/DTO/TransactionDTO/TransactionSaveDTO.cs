@@ -1,4 +1,5 @@
 ﻿using FinanceManagementLifesaver.Enums;
+
 namespace FinanaceManagementLifesaver.DTO
 {
     public class TransactionSaveDTO
