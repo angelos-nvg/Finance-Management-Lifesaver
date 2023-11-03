@@ -27,10 +27,14 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpGet("{email}/{password}")]
-        public async Task<IActionResult> Get(UserLoginDTO userLoginDTO)
+        public async Task<IActionResult> Get(string email, string password)
         {
-            ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(userLoginDTO);
-            if (response.Success)
+            ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(
+                new UserLoginDTO{ 
+                    Email = email, 
+                    Password = password
+                });
+            if (!response.Success)
             {
                 return NotFound();
             }
@@ -57,9 +61,9 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int id)
         {
-            ServiceResponse<User> response = await _userService.DeleteUser(Id);
+            ServiceResponse<User> response = await _userService.DeleteUser(id);
             if (!response.Success)
             {
                 return NotFound(response);

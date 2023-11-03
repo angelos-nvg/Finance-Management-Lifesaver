@@ -19,15 +19,11 @@ namespace FinanceManagementLifesaver.Services
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public UserService(DataContext context)
-        {
-            _context = context;
-        }
-
-        public UserService(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
+        public UserService(DataContext context, IMapper mapper)
+        { 
+            _context = context; 
+            _mapper = mapper; 
+        } 
 
         public async Task<ServiceResponse<User>> CreateUser(UserSaveDTO _user)
         {

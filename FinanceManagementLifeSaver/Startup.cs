@@ -1,4 +1,6 @@
 using FinanceManagementLifesaver.Data;
+using FinanceManagementLifesaver.Interfaces;
+using FinanceManagementLifesaver.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +30,7 @@ namespace FinanceManagementLifesaver
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddScoped<IUserService, UserService>();
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
