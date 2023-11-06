@@ -12,7 +12,7 @@ namespace FinanceManagementLifesaver.Interfaces
     {
         Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction);
         Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId);
-        Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(int accountId);
+        Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO accountId);
         Task<ServiceResponse<TransactionDTO>> UpdateTransaction(TransactionDTO transaction);
         Task<ServiceResponse<TransactionDTO>> DeleteTransaction(TransactionIdDTO transactionId);
     }
