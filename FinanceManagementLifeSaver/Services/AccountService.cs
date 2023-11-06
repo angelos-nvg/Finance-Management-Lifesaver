@@ -73,7 +73,6 @@ namespace FinanceManagementLifesaver.Services
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.User = account.User;
-            _account.Transactions = account.Transactions;
             _context.Accounts.Update(_account);
             await _context.SaveChangesAsync();
             response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);

@@ -34,7 +34,6 @@ namespace FinanceManagementLifesaver.Services
                 Password = _user.Password,
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
-                Accounts = _user.Accounts
             };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -81,7 +80,6 @@ namespace FinanceManagementLifesaver.Services
             _user.Password = user.Password;
             _user.FirstName = user.FirstName;
             _user.LastName = user.LastName;
-            _user.Accounts = user.Accounts;
             _context.Users.Update(_user);
             await _context.SaveChangesAsync();
             response.Data = _user;
