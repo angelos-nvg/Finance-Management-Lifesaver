@@ -31,7 +31,7 @@ namespace FinanceManagementLifesaver.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountBalance = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     AccountType = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

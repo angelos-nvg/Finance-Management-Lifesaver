@@ -14,6 +14,5 @@ namespace FinanceManagementLifesaver.Models
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public Account Account { get; set; }
-        public Account ReceiverAccount { get; set; }
     }
 }
