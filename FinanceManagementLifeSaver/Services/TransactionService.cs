@@ -30,17 +30,17 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(int transactionId)
+        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            response.Data = _mapper.Map<TransactionDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId));
+            response.Data = _mapper.Map<TransactionDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id));
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(int accountId)
+        public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
             ServiceResponse<IEnumerable<TransactionDTO>> response = new ServiceResponse<IEnumerable<TransactionDTO>>();
-            IEnumerable<TransactionDTO> transactions = (IEnumerable<TransactionDTO>)await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId);
+            IEnumerable<TransactionDTO> transactions = (IEnumerable<TransactionDTO>)await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId.Id);
             response.Data = transactions;
             return response;
         }
@@ -57,10 +57,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> DeleteTransaction(int transactionId)
+        public async Task<ServiceResponse<Transaction>> DeleteTransaction(TransactionIdDTO transactionId)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Id);
             response.Data = transaction;
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
