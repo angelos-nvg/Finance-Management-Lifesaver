@@ -1,4 +1,5 @@
-﻿using FinanaceManagementLifesaver.DTO;
+﻿using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
@@ -20,10 +21,10 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _accountService = accountService;
         }
-        [HttpGet("ByUserId{userId}")]
-        public async Task<ActionResult<ServiceResponse<IEnumerable<AccountDTO>>>> GetAccountsByUserId(int userId)
+        [HttpGet("ByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId)
         {
-            ServiceResponse<IEnumerable<AccountDTO>> response = await _accountService.GetAccountsByUserId(userId);
+            ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAccountsByUserId(userId);
             if (!response.Success)
             {
                 return NotFound();

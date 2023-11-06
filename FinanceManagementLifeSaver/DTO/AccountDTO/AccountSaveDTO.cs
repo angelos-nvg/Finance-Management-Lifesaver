@@ -2,7 +2,7 @@
 using FinanceManagementLifesaver.Models;
 using System.Collections.Generic;
 
-namespace FinanaceManagementLifesaver.DTO
+namespace FinanceManagementLifesaver.DTO
 {
     public class AccountSaveDTO
     {

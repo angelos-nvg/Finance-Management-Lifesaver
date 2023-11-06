@@ -1,10 +1,10 @@
 using FinanceManagementLifesaver.Enums;
-namespace FinanaceManagementLifesaver.DTO 
+namespace FinanceManagementLifesaver.DTO.AccountDTO
 {
 	public class AccountDTO {
-		public int Id;
-		public string Name;
-		public decimal AccountBalance;
-		public AccountType AccountType;
+		public int Id { get; set; } 
+		public string Name { get; set; }
+		public decimal AccountBalance { get; set; }
+		public AccountType AccountType { get; set; }
 	}
 }

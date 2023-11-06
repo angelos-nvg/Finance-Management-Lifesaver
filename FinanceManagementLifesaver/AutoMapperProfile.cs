@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Models;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace FinanceManagementLifesaver
             CreateMap<IEnumerable<Account>, IEnumerable<AccountDTO>>();
             CreateMap<AccountDTO, Account>();
             CreateMap<Transaction, TransactionDTO>();
+            CreateMap<Account, AccountDTO>();
         } 
     }
 }

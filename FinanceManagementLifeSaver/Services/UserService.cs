@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;

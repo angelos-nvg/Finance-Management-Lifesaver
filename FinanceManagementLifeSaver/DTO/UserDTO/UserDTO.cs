@@ -1,4 +1,4 @@
-﻿namespace FinanaceManagementLifesaver.DTO
+﻿namespace FinanceManagementLifesaver.DTO
 {
     public class UserDTO
     {

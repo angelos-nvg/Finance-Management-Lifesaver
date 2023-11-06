@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using FinanceManagementLifesaver.Models;
-namespace FinanaceManagementLifesaver.DTO
+namespace FinanceManagementLifesaver.DTO
 {
     public class UserSaveDTO
     {
