@@ -30,10 +30,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<TransactionIdDTO>> GetTransactionById(TransactionIdDTO transactionId)
+        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
-            ServiceResponse<TransactionIdDTO> response = new ServiceResponse<TransactionIdDTO>();
-            response.Data = _mapper.Map<TransactionIdDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id));
+            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
+            response.Data = _mapper.Map<TransactionDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id));
             return response;
         }
 

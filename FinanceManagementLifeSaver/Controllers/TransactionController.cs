@@ -24,13 +24,13 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpGet("{accountId}")]
         public ActionResult<IEnumerable<Transaction>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
-            var transactions = _transactionService.GetTransactionsByAccountId(accountId.Id);
+            var transactions = _transactionService.GetTransactionsByAccountId(accountId);
             return Ok(transactions);
         }
         [HttpGet("{id}")]
         public IActionResult GetTransactionById(TransactionIdDTO transactionId)
         {
-            var transaction = _transactionService.GetTransactionById(transactionId.Id);
+            var transaction = _transactionService.GetTransactionById(transactionId);
             if (transaction == null)
             {
                 return NotFound();
@@ -63,7 +63,7 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(TransactionIdDTO transaction)
         {
-            ServiceResponse<TransactionDTO> response = await _transactionService.DeleteTransaction(transaction);
+            ServiceResponse<Transaction> response = await _transactionService.DeleteTransaction(transaction);
             if (!response.Success)
             {
                 return NotFound(response);
