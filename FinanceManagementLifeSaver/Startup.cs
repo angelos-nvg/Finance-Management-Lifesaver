@@ -56,9 +56,13 @@ namespace FinanceManagementLifesaver
             app.UseSwagger();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
+
+            app.UseStaticFiles();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.InjectStylesheet("/swagger-ui/SwaggerStyle.css");
             });
             if (env.IsDevelopment())
             {
