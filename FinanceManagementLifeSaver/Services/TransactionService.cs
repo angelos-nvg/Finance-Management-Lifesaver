@@ -30,10 +30,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(int transactionId)
+        public async Task<ServiceResponse<TransactionIdDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
-            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            response.Data = _mapper.Map<TransactionDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId));
+            ServiceResponse<TransactionIdDTO> response = new ServiceResponse<TransactionIdDTO>();
+            response.Data = _mapper.Map<TransactionIdDTO>(_context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id));
             return response;
         }
 
@@ -57,10 +57,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> DeleteTransaction(int transactionId)
+        public async Task<ServiceResponse<Transaction>> DeleteTransaction(TransactionIdDTO transactionDTO)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionDTO.Id);
             response.Data = transaction;
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
