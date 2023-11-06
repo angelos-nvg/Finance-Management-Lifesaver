@@ -11,6 +11,7 @@ namespace FinanceManagementLifesaver
             CreateMap<Account, AccountDTO>();
             CreateMap<AccountDTO, Account>();
             CreateMap<Transaction, TransactionDTO>();
+            CreateMap<TransactionDTO, Transaction>();
         } 
     }
 }

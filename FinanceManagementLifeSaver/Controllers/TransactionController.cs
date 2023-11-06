@@ -49,7 +49,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Created(Request.HttpContext.ToString(), response);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(TransactionDTO transaction)
         {
             ServiceResponse<TransactionDTO> response = await _transactionService.UpdateTransaction(transaction);
