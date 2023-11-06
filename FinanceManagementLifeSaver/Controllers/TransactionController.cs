@@ -1,5 +1,8 @@
-﻿using FinanceManagementLifesaver.Interfaces;
+﻿using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
+using FinanceManagementLifesaver.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -33,6 +36,39 @@ namespace FinanceManagementLifesaver.Controllers
                 return NotFound();
             }
             return Ok(transaction);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(TransactionSaveDTO transaction)
+        {
+            ServiceResponse<TransactionSaveDTO> response = await _transactionService.CreateTransaction(transaction);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Created(Request.HttpContext.ToString(), response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(TransactionDTO transaction)
+        {
+            ServiceResponse<TransactionDTO> response = await _transactionService.UpdateTransaction(transaction);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(TransactionIdDTO transaction)
+        {
+            ServiceResponse<TransactionIdDTO> response = await _transactionService.DeleteTransaction(transaction);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }

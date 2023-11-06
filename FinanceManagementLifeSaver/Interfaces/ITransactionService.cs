@@ -14,6 +14,6 @@ namespace FinanceManagementLifesaver.Interfaces
         Task<ServiceResponse<TransactionDTO>> GetTransactionById(int transactionId);
         Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(int accountId);
         Task<ServiceResponse<TransactionDTO>> UpdateTransaction(TransactionDTO transaction);
-        Task<ServiceResponse<Transaction>> DeleteTransaction(int transactionId);
+        Task<ServiceResponse<TransactionIdDTO>> DeleteTransaction(TransactionIdDTO transactionId);
     }
 }
