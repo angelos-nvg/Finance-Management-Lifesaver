@@ -1,4 +1,5 @@
-using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.AccountDTO;
+using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using System;
@@ -10,9 +11,9 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface IAccountService
     {
-        Task<ServiceResponse<AccountSaveDTO>> CreateAccount(AccountSaveDTO account);
+        Task<ServiceResponse<Account>> CreateAccount(AccountSaveDTO account);
         Task<ServiceResponse<AccountDTO>> GetAccountById(int accountId);
-        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId);
+        Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(int userId);
         Task<ServiceResponse<Account>> UpdateAccount(Account account);
         Task<ServiceResponse<Account>> DeleteAccount(int accountId);
     }
