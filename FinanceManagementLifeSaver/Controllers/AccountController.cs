@@ -65,8 +65,6 @@ namespace FinanceManagementLifesaver.Controllers
                 return NotFound();
             }
             return Ok(response);
-        
         }
-
     }
 }

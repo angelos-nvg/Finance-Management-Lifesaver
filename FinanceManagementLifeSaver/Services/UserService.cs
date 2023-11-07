@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagementLifesaver.Validations;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -35,6 +36,12 @@ namespace FinanceManagementLifesaver.Services
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
             };
+            if (await UserValidations.CheckIfEmailTaken(_context, user.Email))
+            {
+                response.Success = false;
+                response.Message = "Email already taken";
+                return response;
+            }
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             response.Data = user;
