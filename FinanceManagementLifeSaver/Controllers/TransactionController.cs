@@ -2,7 +2,6 @@
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
-using FinanceManagementLifesaver.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,8 +21,9 @@ namespace FinanceManagementLifesaver.Controllers
             _transactionService = transactionService;
         }
         [HttpGet("TransactionByAccount/{accountId}")]
-        public ActionResult<IEnumerable<Transaction>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
+            if
             var transactions = _transactionService.GetTransactionsByAccountId(accountId);
             return Ok(transactions);
         }
