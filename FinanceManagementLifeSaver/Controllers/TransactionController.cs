@@ -27,7 +27,7 @@ namespace FinanceManagementLifesaver.Controllers
             var transactions = _transactionService.GetTransactionsByAccountId(accountId);
             return Ok(transactions);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{transactionId}")]
         public IActionResult GetTransactionById(int transactionId)
         {
             var transaction = _transactionService.GetTransactionById(new TransactionIdDTO { Id=transactionId } );
