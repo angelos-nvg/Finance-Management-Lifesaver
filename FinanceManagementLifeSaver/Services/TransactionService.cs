@@ -7,6 +7,7 @@ using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -33,27 +34,37 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            response.Data = _mapper.Map<TransactionDTO>(await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id));
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id);
+            response.Data = _mapper.Map<Transaction, TransactionDTO>(transaction);
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
-            ServiceResponse<IEnumerable<TransactionDTO>> response = new ServiceResponse<IEnumerable<TransactionDTO>>();
-            IEnumerable<TransactionDTO> transactions = (IEnumerable<TransactionDTO>)await _context.Transactions.FirstOrDefaultAsync(a => a.Id == accountId.Id);
+            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
+            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Id == accountId.Id).ToListAsync();
+            if (transactions.Any())
+            {
+                response.Success = false;
+                return response;
+            }
             response.Data = transactions;
             return response;
         }
 
-        public async Task<ServiceResponse<TransactionDTO>> UpdateTransaction(TransactionDTO transaction)
+        public async Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionDTO transaction)
         {
-            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);
+            if (_transaction != null) {
+                response.Success = false;
+                return response;
+            }
             _transaction.Amount = (int)transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
             await _context.SaveChangesAsync();
-            response.Data = transaction;
+            response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
             return response;
         }
 
@@ -61,9 +72,14 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Id);
-            response.Data = transaction;
+            if (transaction == null)
+            {
+                response.Success = false;
+                return response;
+            }
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
+            response.Data = transaction;
             return response;
         }
     }
