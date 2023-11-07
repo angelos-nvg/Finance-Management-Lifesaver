@@ -2,8 +2,8 @@
 {
     public class UserDTO
     {
-        public int Id;
-        public string FirstName;
-        public string LastName;
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }
