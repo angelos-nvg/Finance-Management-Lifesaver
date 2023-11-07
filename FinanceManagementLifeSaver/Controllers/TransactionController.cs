@@ -21,9 +21,9 @@ namespace FinanceManagementLifesaver.Controllers
             _transactionService = transactionService;
         }
         [HttpGet("TransactionByAccount/{accountId}")]
-        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(TransactionIdDTO transactionId)
         {
-            ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(accountId);
+            ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(transactionId);
             if (!response.Success)
             {
                 return NotFound();
@@ -31,9 +31,9 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<TransactionDTO>>> GetTransactionById(int transactionId)
+        public async Task<ActionResult<ServiceResponse<TransactionDTO>>> GetTransactionById(int id)
         {
-            ServiceResponse<TransactionDTO> response = await _transactionService.GetTransactionById(new TransactionIdDTO { Id = transactionId });
+            ServiceResponse<TransactionDTO> response = await _transactionService.GetTransactionById(id);
             if (!response.Success)
             {
                 return NotFound();
@@ -49,7 +49,6 @@ namespace FinanceManagementLifesaver.Controllers
             {
                 return BadRequest(response);
             }
-            //return Created(Request.HttpContext.ToString(), response);
             return Ok(response);
         }
 
