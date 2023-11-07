@@ -12,7 +12,7 @@ namespace FinanceManagementLifesaver.Validations
         public static async Task<bool> CheckIfEmailTaken(DataContext _context, string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user.Email != null)
+            if (user != null)
             {
                 return true; 
             }
