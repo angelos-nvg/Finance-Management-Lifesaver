@@ -56,7 +56,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<ServiceResponse<Transaction>>> Put(TransactionDTO transaction)
         {
             ServiceResponse<Transaction> response = await _transactionService.UpdateTransaction(transaction);
