@@ -4,9 +4,9 @@ namespace FinanceManagementLifesaver.DTO
 {
     public class TransactionSaveDTO
     {
-        public decimal Amount;
-        public TransactionType TransactionType;
-        public string Date;
-        public string Description;
+        public decimal Amount { get; set; }
+        public TransactionType TransactionType { get; set; }
+        public string Date {  get; set; }
+        public string Description { get; set; }
     }
 }
