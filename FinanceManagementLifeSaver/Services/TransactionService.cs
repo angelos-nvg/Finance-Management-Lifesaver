@@ -39,11 +39,11 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
         {
             ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Id == accountId.Id).ToListAsync();
-            if (transactions.Any())
+            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Account.Id == accountId).ToListAsync();
+            if (!transactions.Any())
             {
                 response.Success = false;
                 return response;
@@ -56,13 +56,14 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);
-            if (_transaction != null) {
+            if (_transaction == null) {
                 response.Success = false;
                 return response;
             }
             _transaction.Amount = (int)transaction.Amount;
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
+            _transaction.Description = transaction.Description;
             await _context.SaveChangesAsync();
             response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
             return response;
