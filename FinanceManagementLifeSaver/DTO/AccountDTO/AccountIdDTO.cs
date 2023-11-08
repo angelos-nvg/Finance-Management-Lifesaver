@@ -2,6 +2,6 @@
 {
     public class AccountIdDTO
     {
-        public int Id;
+        public int Id {  get; set; }
     }
 }
