@@ -1,7 +1,9 @@
 ﻿using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
+using FinanceManagementLifesaver.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,7 +25,7 @@ namespace FinanceManagementLifesaver.Controllers
             _transactionService = transactionService;
         }
         [HttpGet("TransactionsByAccount/{accountId}")]
-        public async Task<ActionResult<ServiceResponse<IEnumerable<TransactionDTO>>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(int accountId)
         {
             ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(accountId);
             if (!response.Success)
