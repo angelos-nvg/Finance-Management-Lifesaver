@@ -22,13 +22,13 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _transactionService = transactionService;
         }
-        [HttpGet("TransactionsByAccount/{accountId}")]
+        [HttpPost("TransactionsByAccount/{accountId}")]
         public async Task<ActionResult<ServiceResponse<IEnumerable<TransactionDTO>>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
             ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(accountId);
             if (!response.Success)
             {
-                return NotFound();
+                return NotFound(response);
             }
             return Ok(response);
         }
