@@ -119,3 +119,6 @@ C:\Users\fkaplan\source\repos\angelos-nvg\Finance-Management-Lifesaver\FinanceMa
 C:\Users\fkaplan\source\repos\angelos-nvg\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.dll
 C:\Users\fkaplan\source\repos\angelos-nvg\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.pdb
 C:\Users\fkaplan\source\repos\angelos-nvg\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Debug\netcoreapp3.1\FinanceManagementLifesaver.genruntimeconfig.cache
+C:\Users\lheidland\source\repos\FML\FinanceManagementLifesaver\bin\Debug\netcoreapp3.1\FluentValidation.dll
+C:\Users\lheidland\source\repos\FML\FinanceManagementLifesaver\bin\Debug\netcoreapp3.1\FluentValidation.AspNetCore.dll
+C:\Users\lheidland\source\repos\FML\FinanceManagementLifesaver\bin\Debug\netcoreapp3.1\FluentValidation.DependencyInjectionExtensions.dll

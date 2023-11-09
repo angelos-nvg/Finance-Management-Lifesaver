@@ -4,6 +4,7 @@ using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
+using FinanceManagementLifesaver.Validations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FinanceManagementLifesaver.Validations;
+using FluentValidation;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -42,6 +43,31 @@ namespace FinanceManagementLifesaver.Services
                 response.Message = "Email already taken";
                 return response;
             }
+            UserValidations validator = new UserValidations();
+            var result = validator.Validate(user, options => 
+            {
+                options.IncludeRuleSets("Names", "Credentials");
+            });
+            response.Message = UserValidations.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }else
+            {
+                response.Success = false;
+                return response;
+            }
+            //if (!result.IsValid)
+            //{
+            //    response.Success = false;
+            //    string errorMsg="";
+            //    for(int i=0; i < result.Errors.Count; i++)
+            //    {
+            //        errorMsg += result.Errors[i].ErrorMessage + "\n";
+            //    }
+            //    response.Message = errorMsg;
+            //    return response;
+            //}
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             response.Data = user;
