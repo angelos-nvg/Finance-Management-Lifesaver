@@ -9,7 +9,7 @@ namespace FinanceManagementLifesaver
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile() {
-            CreateMap<AccountSaveDTO, Account>();
+            CreateMap<AccountCreateDTO, Account>();
             CreateMap<Account, AccountDTO>();
             CreateMap<IEnumerable<Account>, IEnumerable<AccountDTO>>();
             CreateMap<AccountDTO, Account>();
