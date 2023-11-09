@@ -30,6 +30,13 @@ namespace FinanceManagementLifesaver.Services
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
             Account _account = _mapper.Map<AccountCreateDTO, Account>(account);
+            var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
+            if (_user == null)
+            {
+                response.Message = "Benutzer wurde nicht gefunden";
+                return response;
+            }
+            _account.User = _user;
 
             //Validation
             AccountValidation validator = new AccountValidation();
