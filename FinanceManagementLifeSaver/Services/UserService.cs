@@ -39,7 +39,7 @@ namespace FinanceManagementLifesaver.Services
             };
 
             //Validation
-            if (await UserValidations.CheckIfEmailTaken(_context, user.Email))
+            if (await UserValidations.CheckIfEmailTaken(_context, user.Email, user.Id))
             {
                 response.Success = false;
                 response.Message = "Email already taken";
@@ -103,6 +103,12 @@ namespace FinanceManagementLifesaver.Services
             _user.LastName = user.LastName;
 
             //Validation
+            if (await UserValidations.CheckIfEmailTaken(_context, user.Email, user.Id))
+            {
+                response.Success = false;
+                response.Message = "Email already taken";
+                return response;
+            }
             UserValidations validator = new UserValidations();
             var result = validator.Validate(user, options =>
             {
