@@ -1,6 +1,5 @@
 using AutoMapper;
 using FinanceManagementLifesaver.DTO;
-using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
@@ -11,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -29,6 +29,14 @@ namespace FinanceManagementLifesaver.Services
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
             Account _account = _mapper.Map<AccountSaveDTO, Account>(account);
+            var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
+            if (_user == null)
+            {
+                response.Success = false;
+                response.Message = "User was not found";
+                return response;
+            }
+            _account.User = _user;
             await _context.Accounts.AddAsync(_account);
 			await _context.SaveChangesAsync();
             response.Data = _account;
