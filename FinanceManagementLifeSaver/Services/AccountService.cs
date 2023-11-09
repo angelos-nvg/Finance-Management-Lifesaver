@@ -29,7 +29,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<Account>> CreateAccount(AccountCreateDTO account)
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
-            Account _account = _mapper.Map<AccountSaveDTO, Account>(account);
+            Account _account = _mapper.Map<AccountCreateDTO, Account>(account);
 
             //Validation
             AccountValidation validator = new AccountValidation();
