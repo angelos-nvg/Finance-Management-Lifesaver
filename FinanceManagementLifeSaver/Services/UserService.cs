@@ -4,6 +4,7 @@ using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
+using FinanceManagementLifesaver.Validations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FinanceManagementLifesaver.Validations;
+using FluentValidation;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -36,10 +37,23 @@ namespace FinanceManagementLifesaver.Services
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
             };
-            if (await UserValidations.CheckIfEmailTaken(_context, user.Email))
+
+            //Validation
+            if (await UserValidations.CheckIfEmailTaken(_context, user.Email, user.Id))
             {
                 response.Success = false;
                 response.Message = "Email already taken";
+                return response;
+            }
+            UserValidations validator = new UserValidations();
+            var result = validator.Validate(user, options => 
+            {
+                options.IncludeRuleSets("Names", "Credentials");
+            });
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message != "")
+            {
+                response.Success = false;
                 return response;
             }
             await _context.Users.AddAsync(user);
@@ -87,6 +101,26 @@ namespace FinanceManagementLifesaver.Services
             _user.Password = user.Password;
             _user.FirstName = user.FirstName;
             _user.LastName = user.LastName;
+
+            //Validation
+            if (await UserValidations.CheckIfEmailTaken(_context, user.Email, user.Id))
+            {
+                response.Success = false;
+                response.Message = "Email already taken";
+                return response;
+            }
+            UserValidations validator = new UserValidations();
+            var result = validator.Validate(user, options =>
+            {
+                options.IncludeRuleSets("Names", "Credentials");
+            });
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message != "")
+            {
+                response.Success = false;
+                return response;
+            }
+
             _context.Users.Update(_user);
             await _context.SaveChangesAsync();
             response.Data = _user;

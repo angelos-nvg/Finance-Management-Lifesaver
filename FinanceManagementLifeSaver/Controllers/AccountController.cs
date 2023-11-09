@@ -44,9 +44,9 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response); // 200 OK mit dem gefundenen Account
         }
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<Account>>> Post(AccountCreateDTO accountSaveDTO)
+        public async Task<ActionResult<ServiceResponse<Account>>> Post(AccountCreateDTO accountCreateDTO)
         {
-            ServiceResponse<Account> response = await _accountService.CreateAccount(accountSaveDTO);
+            ServiceResponse<Account> response = await _accountService.CreateAccount(accountCreateDTO);
             if (!response.Success)
             {
                 return NotFound(response);

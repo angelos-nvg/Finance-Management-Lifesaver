@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagementLifesaver.DTO.AccountDTO;
+using FinanceManagementLifesaver.Validations;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -32,11 +33,25 @@ namespace FinanceManagementLifesaver.Services
             var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
             if (_user == null)
             {
-                response.Success = false;
-                response.Message = "User was not found";
+                response.Message = "Benutzer wurde nicht gefunden";
                 return response;
             }
             _account.User = _user;
+
+            //Validation
+            AccountValidation validator = new AccountValidation();
+            var result = validator.Validate(_account);
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }
+            else
+            {
+                response.Success = false;
+                return response;
+            }
+
             await _context.Accounts.AddAsync(_account);
 			await _context.SaveChangesAsync();
             response.Data = _account;
@@ -89,7 +104,22 @@ namespace FinanceManagementLifesaver.Services
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
-            _account.User = _user;
+            _account.User = new User { Id =  account.UserId };
+
+            //Validation
+            AccountValidation validator = new AccountValidation();
+            var result = validator.Validate(_account);
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }
+            else
+            {
+                response.Success = false;
+                return response;
+            }
+
             _context.Accounts.Update(_account);
             await _context.SaveChangesAsync();
             response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);

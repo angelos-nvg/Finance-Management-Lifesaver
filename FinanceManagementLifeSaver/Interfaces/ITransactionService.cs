@@ -10,10 +10,10 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface ITransactionService
     {
-        Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction);
+        Task<ServiceResponse<TransactionUpdateDTO>> CreateTransaction(TransactionUpdateDTO transaction);
         Task<ServiceResponse<TransactionDTO>> GetTransactionById(int transactionId);
         Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId);
-        Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionDTO transaction);
+        Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionUpdateDTO transaction);
         Task<ServiceResponse<Transaction>> DeleteTransaction(TransactionIdDTO transactionId);
     }
 }
