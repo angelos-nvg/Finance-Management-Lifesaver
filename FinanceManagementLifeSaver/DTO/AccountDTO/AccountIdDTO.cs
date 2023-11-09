@@ -1,7 +1,7 @@
-﻿namespace FinanaceManagementLifesaver.DTO
+﻿namespace FinanceManagementLifesaver.DTO
 {
     public class AccountIdDTO
     {
-        public int Id;
+        public int Id {  get; set; }
     }
 }

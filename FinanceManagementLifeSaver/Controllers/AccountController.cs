@@ -1,5 +1,9 @@
-﻿using FinanceManagementLifesaver.Interfaces;
+﻿using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.AccountDTO;
+using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -18,21 +23,50 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _accountService = accountService;
         }
-        [HttpGet("{userId}")]
-        public ActionResult<IEnumerable<Account>> GetAccountsByUserId(int userId)
+        [HttpGet("ByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId)
         {
-            var accounts = _accountService.GetAccountsByUserId(userId);
-            return Ok(accounts);
+            ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAccountsByUserId(userId);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
         }
         [HttpGet("{id}")]
-        public IActionResult GetAccountById(int id)
+        public async Task<ActionResult<ServiceResponse<AccountDTO>>> GetAccountById(int id)
         {
-            var account = _accountService.GetAccountById(id);
-            if (account == null)
+            ServiceResponse<AccountDTO> response = await _accountService.GetAccountById(id);
+            if (!response.Success)
             {
-                return NotFound(); // 404 Not Found, wenn der Benutzer nicht existiert
+                return NotFound(); // 404 Not Found, wenn der Account nicht existiert
             }
-            return Ok(account); // 200 OK mit dem gefundenen Benutzer
+            return Ok(response); // 200 OK mit dem gefundenen Account
+        }
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<Account>>> Post(AccountSaveDTO accountSaveDTO)
+        {
+            ServiceResponse<Account> response = await _accountService.CreateAccount(accountSaveDTO);
+            return Ok(response);
+        }
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<Account>>> Put(Account accountDTO)
+        {
+            ServiceResponse<Account> response = await _accountService.UpdateAccount(accountDTO);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<Account>>> Delete(int id) {
+            ServiceResponse<Account> response = await _accountService.DeleteAccount(id);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
         }
     }
 }

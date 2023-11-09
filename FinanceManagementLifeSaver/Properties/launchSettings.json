@@ -20,7 +20,7 @@
     "FinanceManagementLifesaver": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "FML",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

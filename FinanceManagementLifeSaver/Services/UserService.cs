@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinanaceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagementLifesaver.Validations;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -34,8 +35,13 @@ namespace FinanceManagementLifesaver.Services
                 Password = _user.Password,
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
-                Accounts = _user.Accounts
             };
+            if (await UserValidations.CheckIfEmailTaken(_context, user.Email))
+            {
+                response.Success = false;
+                response.Message = "Email already taken";
+                return response;
+            }
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             response.Data = user;
@@ -81,7 +87,6 @@ namespace FinanceManagementLifesaver.Services
             _user.Password = user.Password;
             _user.FirstName = user.FirstName;
             _user.LastName = user.LastName;
-            _user.Accounts = user.Accounts;
             _context.Users.Update(_user);
             await _context.SaveChangesAsync();
             response.Data = _user;
