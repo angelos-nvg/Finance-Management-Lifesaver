@@ -39,19 +39,6 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
-        {
-            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Account.Id == accountId).ToListAsync();
-            if (!transactions.Any())
-            {
-                response.Success = false;
-                return response;
-            }
-            response.Data = transactions;
-            return response;
-        }
-
         public async Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionDTO transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
@@ -81,6 +68,19 @@ namespace FinanceManagementLifesaver.Services
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
             response.Data = transaction;
+            return response;
+        }
+
+        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        {
+            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
+            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Account.Id == accountId.Id).ToListAsync();
+            if (!transactions.Any())
+            {
+                response.Success = false;
+                return response;
+            }
+            response.Data = transactions;
             return response;
         }
     }
