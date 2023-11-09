@@ -47,6 +47,10 @@ namespace FinanceManagementLifesaver.Controllers
         public async Task<ActionResult<ServiceResponse<Account>>> Post(AccountSaveDTO accountSaveDTO)
         {
             ServiceResponse<Account> response = await _accountService.CreateAccount(accountSaveDTO);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
             return Ok(response);
         }
         [HttpPut]
