@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using FinanceManagementLifesaver.Migrations;
+using FinanceManagementLifesaver.Validations;
+using FluentValidation;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -25,6 +28,20 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction)
         {
             ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
+
+            //Validations
+            TransactionValidations validator = new TransactionValidations();
+            var result = validator.Validate(transaction, options =>
+            {
+                options.IncludeRuleSets("Enums", "Dates", "Description");
+            });
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message != "")
+            {
+                response.Success = false;
+                return response;
+            }
+
             await _context.Transactions.AddAsync(_mapper.Map< TransactionSaveDTO, Transaction>(transaction));
             await _context.SaveChangesAsync();
             response.Data = transaction;
@@ -64,6 +81,20 @@ namespace FinanceManagementLifesaver.Services
             _transaction.TransactionType = transaction.TransactionType;
             _transaction.Date = transaction.Date;
             _transaction.Description = transaction.Description;
+
+            //Validations
+            TransactionValidations validator = new TransactionValidations();
+            var result = validator.Validate(transaction, options =>
+            {
+                options.IncludeRuleSets("Enums", "Dates", "Description");
+            });
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message != "")
+            {
+                response.Success = false;
+                return response;
+            }
+
             await _context.SaveChangesAsync();
             response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
             return response;
