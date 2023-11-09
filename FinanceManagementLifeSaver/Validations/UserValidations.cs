@@ -37,19 +37,6 @@ namespace FinanceManagementLifesaver.Validations
                 Length(3, 30).WithMessage("Passwort muss zwischen 3 und 30 Zeichen beinhalten");
             });
         }
-        public static string GetValidatorResponse(bool isValid, IList<FluentValidation.Results.ValidationFailure> result)
-        {
-            string errorMsg = "";
-            if (!isValid)
-            {
-                for (int i = 0; i < result.Count; i++)
-                {
-                    errorMsg += result[i] + " \n";
-                }
-                return errorMsg;
-            }
-            return errorMsg;
-        }
 
         //FluentValidation hat zwar einen EmailValidator, allerdings überprüft dieser nur nach einem @ Zeichen
         private bool BeAValidEmail(string email)

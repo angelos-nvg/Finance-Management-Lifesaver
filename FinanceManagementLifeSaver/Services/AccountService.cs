@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagementLifesaver.Validations;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -29,6 +30,21 @@ namespace FinanceManagementLifesaver.Services
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
             Account _account = _mapper.Map<AccountSaveDTO, Account>(account);
+
+            //Validation
+            AccountValidation validator = new AccountValidation();
+            var result = validator.Validate(_account);
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }
+            else
+            {
+                response.Success = false;
+                return response;
+            }
+
             await _context.Accounts.AddAsync(_account);
 			await _context.SaveChangesAsync();
             response.Data = _account;
@@ -74,6 +90,21 @@ namespace FinanceManagementLifesaver.Services
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
             _account.User = account.User;
+
+            //Validation
+            AccountValidation validator = new AccountValidation();
+            var result = validator.Validate(_account);
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }
+            else
+            {
+                response.Success = false;
+                return response;
+            }
+
             _context.Accounts.Update(_account);
             await _context.SaveChangesAsync();
             response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
