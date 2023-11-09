@@ -1,9 +1,9 @@
-﻿using FinanceManagementLifesaver.DTO;
+﻿using FinanceManagementLifesaver.Models;
 using FluentValidation;
 
 namespace FinanceManagementLifesaver.Validations
 {
-    public class TransactionValidations : AbstractValidator<TransactionUpdateDTO>
+    public class TransactionValidations : AbstractValidator<Transaction>
     {
         public TransactionValidations()
         {
@@ -23,6 +23,10 @@ namespace FinanceManagementLifesaver.Validations
             RuleSet("Money", () =>
             {
                 RuleFor(t => t.Amount).ExclusiveBetween(0, 999999999).WithMessage("Beschreibung kann maximal 300 Zeichen lang sein");
+            });
+            RuleSet("Accounts", () =>
+            {
+                RuleFor(t => t.Account.Id).NotNull().WithMessage("Jede Transaktion braucht einen dazugehörigen Account");
             });
         }
     }
