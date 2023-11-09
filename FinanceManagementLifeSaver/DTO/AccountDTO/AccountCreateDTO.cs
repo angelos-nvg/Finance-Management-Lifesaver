@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FinanceManagementLifesaver.DTO
 {
-    public class AccountSaveDTO
+    public class AccountCreateDTO
     {
         public string Name { get; set; }
         public decimal AccountBalance { get; set; }
