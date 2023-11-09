@@ -25,9 +25,9 @@ namespace FinanceManagementLifesaver.Services
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction)
+        public async Task<ServiceResponse<TransactionUpdateDTO>> CreateTransaction(TransactionUpdateDTO transaction)
         {
-            ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
+            ServiceResponse<TransactionUpdateDTO> response = new ServiceResponse<TransactionUpdateDTO>();
 
             //Validations
             TransactionValidations validator = new TransactionValidations();
@@ -42,7 +42,7 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            await _context.Transactions.AddAsync(_mapper.Map< TransactionSaveDTO, Transaction>(transaction));
+            await _context.Transactions.AddAsync(_mapper.Map< TransactionUpdateDTO, Transaction>(transaction));
             await _context.SaveChangesAsync();
             response.Data = transaction;
             return response;
@@ -69,7 +69,7 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionDTO transaction)
+        public async Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionUpdateDTO transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);

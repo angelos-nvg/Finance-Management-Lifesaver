@@ -104,7 +104,7 @@ namespace FinanceManagementLifesaver.Services
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
-            _account.User = account.User;
+            _account.User = new User { Id =  account.UserId };
 
             //Validation
             AccountValidation validator = new AccountValidation();

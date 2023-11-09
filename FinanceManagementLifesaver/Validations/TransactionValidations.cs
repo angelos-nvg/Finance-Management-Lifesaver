@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace FinanceManagementLifesaver.Validations
 {
-    public class TransactionValidations : AbstractValidator<TransactionDTO>
+    public class TransactionValidations : AbstractValidator<TransactionUpdateDTO>
     {
         public TransactionValidations()
         {
