@@ -20,6 +20,10 @@ namespace FinanceManagementLifesaver.Validations
             {
                 RuleFor(t => t.Description).MaximumLength(300).WithMessage("Beschreibung kann maximal 300 Zeichen lang sein");
             });
+            RuleSet("Money", () =>
+            {
+                RuleFor(t => t.Amount).ExclusiveBetween(0, 999999999).WithMessage("Beschreibung kann maximal 300 Zeichen lang sein");
+            });
         }
     }
 }
