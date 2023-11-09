@@ -33,7 +33,7 @@ namespace FinanceManagementLifesaver.Services
             TransactionValidations validator = new TransactionValidations();
             var result = validator.Validate(transaction, options =>
             {
-                options.IncludeRuleSets("Enums", "Dates", "Description");
+                options.IncludeRuleSets("Enums", "Dates", "Description", "Money", "Accounts");
             });
             response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
             if (response.Message != "")
