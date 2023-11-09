@@ -22,7 +22,7 @@ namespace FinanceManagementLifesaver.Validations
             });
             RuleSet("Money", () =>
             {
-                RuleFor(t => t.Amount).ExclusiveBetween(0, 999999999).WithMessage("Beschreibung kann maximal 300 Zeichen lang sein");
+                RuleFor(t => t.Amount).ExclusiveBetween(0, 999999999).WithMessage("Muss eine angemessene Zahl sein");
             });
             RuleSet("Accounts", () =>
             {
