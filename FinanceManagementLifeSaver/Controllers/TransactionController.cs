@@ -46,9 +46,9 @@ namespace FinanceManagementLifesaver.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<TransactionDTO>>> Post(TransactionUpdateDTO transaction)
+        public async Task<ActionResult<ServiceResponse<Transaction>>> Post(Transaction transaction)
         {
-            ServiceResponse<TransactionUpdateDTO> response = await _transactionService.CreateTransaction(transaction);
+            ServiceResponse<Transaction> response = await _transactionService.CreateTransaction(transaction);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -57,7 +57,7 @@ namespace FinanceManagementLifesaver.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<Transaction>>> Put(TransactionUpdateDTO transaction)
+        public async Task<ActionResult<ServiceResponse<Transaction>>> Put(Transaction transaction)
         {
             ServiceResponse<Transaction> response = await _transactionService.UpdateTransaction(transaction);
             if (!response.Success)

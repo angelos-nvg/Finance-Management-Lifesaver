@@ -25,15 +25,15 @@ namespace FinanceManagementLifesaver.Services
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<TransactionUpdateDTO>> CreateTransaction(TransactionUpdateDTO transaction)
+        public async Task<ServiceResponse<Transaction>> CreateTransaction(Transaction transaction)
         {
-            ServiceResponse<TransactionUpdateDTO> response = new ServiceResponse<TransactionUpdateDTO>();
+            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
 
             //Validations
             TransactionValidations validator = new TransactionValidations();
             var result = validator.Validate(transaction, options =>
             {
-                options.IncludeRuleSets("Enums", "Dates", "Description");
+                options.IncludeRuleSets("Enums", "Dates", "Description", "Money", "Accounts");
             });
             response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
             if (response.Message != "")
@@ -42,7 +42,7 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            await _context.Transactions.AddAsync(_mapper.Map< TransactionUpdateDTO, Transaction>(transaction));
+            await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
             response.Data = transaction;
             return response;
@@ -69,7 +69,7 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionUpdateDTO transaction)
+        public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
         {
             ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
             Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);
