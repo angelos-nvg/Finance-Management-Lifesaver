@@ -1,4 +1,6 @@
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\PubTmp\Out\FinanceManagementLifesaver.exe
+C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\swagger-ui\SwaggerStyle.css
+C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\swagger-ui\SwaggerStyle.user.css
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\PubTmp\Out\web.config
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\PubTmp\Out\appsettings.Development.json
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\PubTmp\Out\appsettings.json

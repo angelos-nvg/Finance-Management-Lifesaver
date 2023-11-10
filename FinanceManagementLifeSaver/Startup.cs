@@ -32,12 +32,12 @@ namespace FinanceManagementLifesaver
             services.AddCors();
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(
+                options.AddPolicy( name: "CorsPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("http://vmentvs05")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod();
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -84,7 +84,7 @@ namespace FinanceManagementLifesaver
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("CorsPolicy");
             app.UseCors(builder =>
             {
                 builder

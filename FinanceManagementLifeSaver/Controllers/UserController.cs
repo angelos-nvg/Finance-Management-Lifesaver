@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Controllers
 {
-    [EnableCors]
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
