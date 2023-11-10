@@ -1,9 +1,10 @@
-﻿using FinanceManagementLifesaver.Models;
+﻿using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.Models;
 using FluentValidation;
 
 namespace FinanceManagementLifesaver.Validations
 {
-    public class TransactionValidations : AbstractValidator<Transaction>
+    public class TransactionValidations : AbstractValidator<TransactionSaveDTO>
     {
         public TransactionValidations()
         {
@@ -26,7 +27,7 @@ namespace FinanceManagementLifesaver.Validations
             });
             RuleSet("Accounts", () =>
             {
-                RuleFor(t => t.Account.Id).NotNull().WithMessage("Jede Transaktion braucht einen dazugehörigen Account");
+                RuleFor(t => t.AccountId).NotNull().WithMessage("Jede Transaktion braucht einen dazugehörigen Account");
             });
         }
     }

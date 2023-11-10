@@ -11,6 +11,7 @@ using System.Linq;
 using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Validations;
 using FluentValidation;
+using System;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -25,9 +26,9 @@ namespace FinanceManagementLifesaver.Services
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<Transaction>> CreateTransaction(Transaction transaction)
+        public async Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
 
             //Validations
             TransactionValidations validator = new TransactionValidations();
@@ -69,18 +70,14 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> UpdateTransaction(Transaction transaction)
+        public async Task<ServiceResponse<TransactionSaveDTO>> UpdateTransaction(TransactionSaveDTO transaction)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
             Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);
             if (_transaction == null) {
                 response.Success = false;
                 return response;
             }
-            _transaction.Amount = (int)transaction.Amount;
-            _transaction.TransactionType = transaction.TransactionType;
-            _transaction.Date = transaction.Date;
-            _transaction.Description = transaction.Description;
 
             //Validations
             TransactionValidations validator = new TransactionValidations();
@@ -96,13 +93,13 @@ namespace FinanceManagementLifesaver.Services
             }
 
             await _context.SaveChangesAsync();
-            response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+            response.Data = transaction;
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> DeleteTransaction(TransactionIdDTO transactionId)
+        public async Task<ServiceResponse<TransactionDTO>> DeleteTransaction(TransactionIdDTO transactionId)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
             Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Id);
             if (transaction == null)
             {
@@ -111,7 +108,7 @@ namespace FinanceManagementLifesaver.Services
             }
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
-            response.Data = transaction;
+            response.Success = true;
             return response;
         }
     }
