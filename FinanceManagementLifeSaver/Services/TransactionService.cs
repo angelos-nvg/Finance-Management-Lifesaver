@@ -43,7 +43,15 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            await _context.Transactions.AddAsync(transaction);
+            //Hotfix
+            Transaction _transaction = new Transaction();
+            _transaction.Id = transaction.Id;
+            _transaction.Amount = (int)transaction.Amount;
+            _transaction.Description = transaction.Description;
+            _transaction.TransactionType = transaction.TransactionType;
+            _transaction.Account = new Models.Account { Id = transaction.AccountId };
+            await _context.Transactions.AddAsync(_transaction);
+
             await _context.SaveChangesAsync();
             response.Data = transaction;
             return response;

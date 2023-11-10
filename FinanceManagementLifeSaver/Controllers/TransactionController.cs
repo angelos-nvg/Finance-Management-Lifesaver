@@ -59,7 +59,7 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<TransactionSaveDTO>>> Put(TransactionSaveDTO transaction)
         {
-            ServiceResponse<Transaction> response = await _transactionService.UpdateTransaction(transaction);
+            ServiceResponse<TransactionSaveDTO> response = await _transactionService.UpdateTransaction(transaction);
             if (!response.Success)
             {
                 return BadRequest(response);
