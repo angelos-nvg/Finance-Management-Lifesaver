@@ -1,5 +1,5 @@
 ﻿using FinanceManagementLifesaver.Data;
-using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.ServiceResponse;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Validations
 {
-    public class AccountValidation : AbstractValidator<Account>
+    public class AccountValidation : AbstractValidator<AccountSaveDTO>
     {
         public AccountValidation()
         {
