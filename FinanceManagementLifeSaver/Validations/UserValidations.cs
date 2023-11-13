@@ -1,4 +1,5 @@
 ﻿using FinanceManagementLifesaver.Data;
+using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using FluentValidation;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Validations
 {
-    public class UserValidations : AbstractValidator<User>
+    public class UserValidations : AbstractValidator<UserSaveDTO>
     {
         public UserValidations()
         {

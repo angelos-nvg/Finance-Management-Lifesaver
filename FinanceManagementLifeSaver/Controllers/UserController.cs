@@ -1,4 +1,5 @@
-﻿using FinanceManagementLifesaver.DTO;
+﻿using AutoMapper;
+using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
@@ -17,13 +18,15 @@ namespace FinanceManagementLifesaver.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             ServiceResponse<IEnumerable<User>> response = await _userService.GetAllUsers();
             return Ok(response);
@@ -43,9 +46,10 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<IActionResult> Post(UserSaveDTO userSaveDTO)
+        public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> Post(UserSaveDTO userSaveDTO)
         {
-            ServiceResponse<User> response = await _userService.CreateUser(userSaveDTO);
+            ServiceResponse<UserSaveDTO> response = new ServiceResponse<UserSaveDTO>();
+            response.Data = _mapper.Map<UserSaveDTO>(await _userService.CreateUser(userSaveDTO));
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -53,9 +57,9 @@ namespace FinanceManagementLifesaver.Controllers
             return Created(Request.HttpContext.ToString() , response);
         }
         [HttpPut]
-        public async Task<IActionResult> Put(User user)
+        public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> Put(UserSaveDTO user)
         {
-            ServiceResponse<User> response = await _userService.UpdateUser(user);
+            ServiceResponse<UserSaveDTO> response = await _userService.UpdateUser(user);
             if (!response.Success)
             {
                 return BadRequest(response);
