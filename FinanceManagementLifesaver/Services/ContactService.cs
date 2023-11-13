@@ -29,7 +29,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<ContactDTO>> CreateContact(ContactDTO contact)
         {
             ServiceResponse<ContactDTO> response = new ServiceResponse<ContactDTO>();
-            var tempContact = await _context.Contacts.Where(c => c.Contact.Id == accountId || c.UserId == accountId);
+            var tempContact = await _context.Contacts.Where(c => c.Contact.Id == contact.Id || c.UserId == contact.Id);
             if(tempContact != null)
             {
                 response.Success = false;
