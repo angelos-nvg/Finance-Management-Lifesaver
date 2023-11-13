@@ -2,6 +2,7 @@
 using System;
 using FinanceManagementLifesaver.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using FinanceManagementLifesaver.DTO;
 
 namespace FinanceManagementLifesaver.Models
 {

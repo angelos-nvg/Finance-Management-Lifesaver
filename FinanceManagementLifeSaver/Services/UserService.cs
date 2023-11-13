@@ -27,15 +27,15 @@ namespace FinanceManagementLifesaver.Services
             _mapper = mapper; 
         } 
 
-        public async Task<ServiceResponse<User>> CreateUser(UserSaveDTO _user)
+        public async Task<ServiceResponse<UserSaveDTO>> CreateUser(UserSaveDTO user)
         {
-            ServiceResponse<User> response = new ServiceResponse<User>();
-            User user = new User
+            ServiceResponse<UserSaveDTO> response = new ServiceResponse<UserSaveDTO>();
+            User _user = new User
             {
-                Email = _user.Email,
-                Password = _user.Password,
-                FirstName = _user.FirstName,
-                LastName = _user.LastName,
+                Email = user.Email,
+                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
             };
 
             //Validation
@@ -56,7 +56,7 @@ namespace FinanceManagementLifesaver.Services
                 response.Success = false;
                 return response;
             }
-            await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(_user);
             await _context.SaveChangesAsync();
             response.Data = user;
             return response;
@@ -93,14 +93,20 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<User>> UpdateUser(User user)
+        public async Task<ServiceResponse<UserSaveDTO>> UpdateUser(UserSaveDTO user)
         {
-            ServiceResponse<User> response = new ServiceResponse<User>();
+            ServiceResponse<UserSaveDTO> response = new ServiceResponse<UserSaveDTO>();
             User _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
-            _user.Email = user.Email;
-            _user.Password = user.Password;
+            _user.Email = _user.Email;
+            _user.Password = _user.Password;
             _user.FirstName = user.FirstName;
             _user.LastName = user.LastName;
+            if (_user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found";
+                return response;
+            }
 
             //Validation
             if (await UserValidations.CheckIfEmailTaken(_context, user.Email, user.Id))
@@ -123,7 +129,7 @@ namespace FinanceManagementLifesaver.Services
 
             _context.Users.Update(_user);
             await _context.SaveChangesAsync();
-            response.Data = _user;
+            response.Data = user;
             return response;
         }
     }
