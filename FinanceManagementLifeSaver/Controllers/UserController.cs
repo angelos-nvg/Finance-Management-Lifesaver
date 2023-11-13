@@ -48,8 +48,7 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> Post(UserSaveDTO userSaveDTO)
         {
-            ServiceResponse<UserSaveDTO> response = new ServiceResponse<UserSaveDTO>();
-            response.Data = _mapper.Map<UserSaveDTO>(await _userService.CreateUser(userSaveDTO));
+            ServiceResponse<UserSaveDTO> response = await _userService.CreateUser(userSaveDTO);
             if (!response.Success)
             {
                 return BadRequest(response);
