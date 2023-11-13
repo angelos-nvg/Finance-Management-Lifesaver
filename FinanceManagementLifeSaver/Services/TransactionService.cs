@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using FinanceManagementLifesaver.Migrations;
+using FinanceManagementLifesaver.Validations;
+using FluentValidation;
+using System;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -25,7 +29,29 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionSaveDTO>> CreateTransaction(TransactionSaveDTO transaction)
         {
             ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
-            await _context.Transactions.AddAsync(_mapper.Map< TransactionSaveDTO, Transaction>(transaction));
+
+            //Validations
+            TransactionValidations validator = new TransactionValidations();
+            var result = validator.Validate(transaction, options =>
+            {
+                options.IncludeRuleSets("Enums", "Dates", "Description", "Money", "Accounts");
+            });
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message != "")
+            {
+                response.Success = false;
+                return response;
+            }
+
+            //Hotfix
+            Transaction _transaction = new Transaction();
+            _transaction.Id = transaction.Id;
+            _transaction.Amount = (int)transaction.Amount;
+            _transaction.Description = transaction.Description;
+            _transaction.TransactionType = transaction.TransactionType;
+            _transaction.Account = new Models.Account { Id = transaction.AccountId };
+            await _context.Transactions.AddAsync(_transaction);
+
             await _context.SaveChangesAsync();
             response.Data = transaction;
             return response;
@@ -39,26 +65,49 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> UpdateTransaction(TransactionDTO transaction)
+        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
+            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Account.Id == accountId).ToListAsync();
+            if (!transactions.Any())
+            {
+                response.Success = false;
+                return response;
+            }
+            response.Data = transactions;
+            return response;
+        }
+
+        public async Task<ServiceResponse<TransactionSaveDTO>> UpdateTransaction(TransactionSaveDTO transaction)
+        {
+            ServiceResponse<TransactionSaveDTO> response = new ServiceResponse<TransactionSaveDTO>();
             Transaction _transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transaction.Id);
             if (_transaction == null) {
                 response.Success = false;
                 return response;
             }
-            _transaction.Amount = (int)transaction.Amount;
-            _transaction.TransactionType = transaction.TransactionType;
-            _transaction.Date = transaction.Date;
-            _transaction.Description = transaction.Description;
+
+            //Validations
+            TransactionValidations validator = new TransactionValidations();
+            var result = validator.Validate(transaction, options =>
+            {
+                options.IncludeRuleSets("Enums", "Dates", "Description");
+            });
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message != "")
+            {
+                response.Success = false;
+                return response;
+            }
+
             await _context.SaveChangesAsync();
-            response.Data = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+            response.Data = transaction;
             return response;
         }
 
-        public async Task<ServiceResponse<Transaction>> DeleteTransaction(TransactionIdDTO transactionId)
+        public async Task<ServiceResponse<TransactionDTO>> DeleteTransaction(TransactionIdDTO transactionId)
         {
-            ServiceResponse<Transaction> response = new ServiceResponse<Transaction>();
+            ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
             Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Id);
             if (transaction == null)
             {
@@ -67,7 +116,7 @@ namespace FinanceManagementLifesaver.Services
             }
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
-            response.Data = transaction;
+            response.Success = true;
             return response;
         }
 

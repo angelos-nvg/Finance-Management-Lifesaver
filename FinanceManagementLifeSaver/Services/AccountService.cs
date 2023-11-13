@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagementLifesaver.DTO.AccountDTO;
+using FinanceManagementLifesaver.Validations;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -25,21 +26,41 @@ namespace FinanceManagementLifesaver.Services
             _context = context;
         }
 
-        public async Task<ServiceResponse<Account>> CreateAccount(AccountSaveDTO account)
+        public async Task<ServiceResponse<AccountSaveDTO>> CreateAccount(AccountSaveDTO account)
 		{
-			ServiceResponse<Account> response = new ServiceResponse<Account>();
-            Account _account = _mapper.Map<AccountSaveDTO, Account>(account);
+			ServiceResponse<AccountSaveDTO> response = new ServiceResponse<AccountSaveDTO>();
             var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
             if (_user == null)
             {
-                response.Success = false;
-                response.Message = "User was not found";
+                response.Message = "Benutzer wurde nicht gefunden";
                 return response;
             }
-            _account.User = _user;
-            await _context.Accounts.AddAsync(_account);
+            account.UserId = _user.Id;
+
+            //Validation
+            AccountValidation validator = new AccountValidation();
+            var result = validator.Validate(account);
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }
+            else
+            {
+                response.Success = false;
+                return response;
+            }
+
+            Account insertAccount = new Account();
+            insertAccount.AccountBalance = account.AccountBalance;
+            insertAccount.AccountType = account.AccountType;
+            insertAccount.User = _user;
+            insertAccount.Name = account.Name;
+            insertAccount.Id = account.Id;
+
+            await _context.Accounts.AddAsync(insertAccount);
 			await _context.SaveChangesAsync();
-            response.Data = _account;
+            response.Data = account;
             return response;
 		}
 
@@ -69,22 +90,45 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<Account>> UpdateAccount(Account account)
+        public async Task<ServiceResponse<AccountSaveDTO>> UpdateAccount(AccountSaveDTO account)
         {
-			ServiceResponse<Account> response = new ServiceResponse<Account>();
+			ServiceResponse<AccountSaveDTO> response = new ServiceResponse<AccountSaveDTO>();
             Account _account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == account.Id);
             if (_account == null)
             {
                 response.Success = false;
+                response.Message = "Account not found";
+                return response;
+            }
+            var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
+            if (_user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found";
                 return response;
             }
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
-            _account.User = account.User;
+            _account.User = new User { Id =  account.UserId };
+
+            //Validation
+            AccountValidation validator = new AccountValidation();
+            var result = validator.Validate(account);
+            response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
+            if (response.Message == "")
+            {
+                response.Success = true;
+            }
+            else
+            {
+                response.Success = false;
+                return response;
+            }
+
             _context.Accounts.Update(_account);
             await _context.SaveChangesAsync();
-            response.Data = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
+            response.Data = account;
 			return response;
         }
 
@@ -97,7 +141,12 @@ namespace FinanceManagementLifesaver.Services
                 response.Success = false;
                 return response;
             }
-			_context.Accounts.Remove(account);
+            List<Transaction> transactions = await _context.Transactions.Where(t => t.Account.Id == account.Id).ToListAsync();
+            if (transactions.Count > 0 )
+            {
+                 _context.Transactions.RemoveRange(transactions);
+            }
+            _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
             response.Data = account;
 			return response;
