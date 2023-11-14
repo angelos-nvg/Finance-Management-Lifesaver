@@ -55,6 +55,3 @@ C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLife
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\FinanceManagementLifesaver.dll
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\FinanceManagementLifesaver.pdb
 C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\obj\Release\netcoreapp3.1\FinanceManagementLifesaver.genruntimeconfig.cache
-C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\bin\Release\netcoreapp3.1\FluentValidation.dll
-C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\bin\Release\netcoreapp3.1\FluentValidation.AspNetCore.dll
-C:\Users\fkaplan\source\repos\Finance-Management-Lifesaver\FinanceManagementLifesaver\bin\Release\netcoreapp3.1\FluentValidation.DependencyInjectionExtensions.dll

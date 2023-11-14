@@ -45,44 +45,6 @@ namespace FinanceManagementLifesaver.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("FinanceManagementLifesaver.Models.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contacts");
-                });
-
-            modelBuilder.Entity("FinanceManagementLifesaver.Models.Document", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Path")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("Documents");
-                });
-
             modelBuilder.Entity("FinanceManagementLifesaver.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -141,13 +103,6 @@ namespace FinanceManagementLifesaver.Migrations
                     b.HasOne("FinanceManagementLifesaver.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("FinanceManagementLifesaver.Models.Document", b =>
-                {
-                    b.HasOne("FinanceManagementLifesaver.Models.Transaction", "Transaction")
-                        .WithMany()
-                        .HasForeignKey("TransactionId");
                 });
 
             modelBuilder.Entity("FinanceManagementLifesaver.Models.Transaction", b =>
