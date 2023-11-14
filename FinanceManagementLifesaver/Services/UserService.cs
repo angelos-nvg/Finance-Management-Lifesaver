@@ -58,6 +58,7 @@ namespace FinanceManagementLifesaver.Services
             }
             await _context.Users.AddAsync(_user);
             await _context.SaveChangesAsync();
+            user.Id = _user.Id;
             response.Data = user;
             return response;
         }
@@ -66,10 +67,24 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            List<Account> accounts = await _context.Accounts.Where(a => a.User.Id == userId).ToListAsync();
+            List<Transaction> transactions = new List<Transaction>();
+            foreach (Account acc in accounts)
+            {
+                transactions.AddRange(await _context.Transactions.Where(t => t.Account.Id == acc.Id).ToListAsync());
+            }
             if (user == null)
             {
                 response.Success = false;
                 return response;
+            }
+            if (accounts.Count > 0)
+            {
+                _context.Accounts.RemoveRange(accounts);
+            }
+            if (transactions.Count > 0)
+            {
+                _context.Transactions.RemoveRange(transactions);
             }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
@@ -97,8 +112,8 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<UserSaveDTO> response = new ServiceResponse<UserSaveDTO>();
             User _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
-            _user.Email = _user.Email;
-            _user.Password = _user.Password;
+            _user.Email = user.Email;
+            _user.Password = user.Password;
             _user.FirstName = user.FirstName;
             _user.LastName = user.LastName;
             if (_user == null)
