@@ -36,10 +36,12 @@ namespace FinanceManagementLifesaver.Services
                 response.Message = "Kontakt existiert bereits";
             }
             //Hotfix
-            Contact _contact = new Contact();
-            _contact.Id = contact.Id;
-            _contact.Name =contact.Name;
-            _contact.Email = contact.Email;
+            Contact _contact = new Contact
+            {
+                Id = contact.Id,
+                Name = contact.Name,
+                Email = contact.Email
+            };
             await _context.Contacts.AddAsync(_contact);
 
             await _context.SaveChangesAsync();
