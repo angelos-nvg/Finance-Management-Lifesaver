@@ -2,16 +2,16 @@
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Interfaces;
+using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using FinanceManagementLifesaver.Validations;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Services
 {
-    public class InvestmentService
-    {
         public class InvestmentService : IInvestmentService
         {
             private readonly DataContext _context;
@@ -23,20 +23,19 @@ namespace FinanceManagementLifesaver.Services
                 _context = context;
             }
 
-            public async Task<ServiceResponse<InvestmentSaveDTO>> CreateInvestment(InvestmentSaveDTO account)
+            public async Task<ServiceResponse<InvestmentDTO>> CreateInvestment(InvestmentDTO investment)
             {
-                ServiceResponse<InvestmentSaveDTO> response = new ServiceResponse<InvestmentSaveDTO>();
-                var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
-                if (_user == null)
+                ServiceResponse<InvestmentDTO> response = new ServiceResponse<InvestmentDTO>();
+                var _account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == investment.Account.Id);
+                if (_account == null)
                 {
                     response.Message = "Benutzer wurde nicht gefunden";
                     return response;
                 }
-                account.UserId = _user.Id;
 
                 //Validation
-                InvestmentValidation validator = new InvestmentValidation();
-                var result = validator.Validate(account);
+                InvestmentValidations validator = new InvestmentValidations();
+                var result = validator.Validate(investment);
                 response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
                 if (response.Message == "")
                 {
@@ -48,16 +47,20 @@ namespace FinanceManagementLifesaver.Services
                     return response;
                 }
 
-                Investment insertInvestment = new Investment();
-                insertInvestment.InvestmentBalance = account.InvestmentBalance;
-                insertInvestment.InvestmentType = account.InvestmentType;
-                insertInvestment.User = _user;
-                insertInvestment.Name = account.Name;
-                insertInvestment.Id = account.Id;
+                Investment insertInvestment = new Investment
+                {
+                    InvestedMoney = investment.InvestedMoney,
+                    InvestmentType = investment.InvestmentType,
+                    Account = _account,
+                    RoI = investment.RoI,
+                    StartMoney = investment.StartMoney,
+                    StartDate = investment.StartDate,
+                    Id = investment.Id
+                };
 
                 await _context.Investments.AddAsync(insertInvestment);
                 await _context.SaveChangesAsync();
-                response.Data = account;
+                response.Data = investment;
                 return response;
             }
 
@@ -74,44 +77,48 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByUserId(int userId)
+            public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(int accountId)
             {
                 ServiceResponse<IEnumerable<Investment>> response = new ServiceResponse<IEnumerable<Investment>>();
-                List<Investment> accounts = (List<Investment>)await _context.Investments.Where(u => u.User.Id == userId).ToListAsync();
-                if (!accounts.Any())
+                List<Investment> investments = (List<Investment>)await _context.Investments.Where(a => a.Id == accountId).ToListAsync();
+                if (!investments.Any())
                 {
                     response.Success = false;
                     return response;
                 }
-                response.Data = accounts;
+                response.Data = investments;
                 return response;
             }
 
-            public async Task<ServiceResponse<InvestmentSaveDTO>> UpdateInvestment(InvestmentSaveDTO account)
+            public async Task<ServiceResponse<InvestmentDTO>> UpdateInvestment(InvestmentDTO investment)
             {
-                ServiceResponse<InvestmentSaveDTO> response = new ServiceResponse<InvestmentSaveDTO>();
-                Investment _account = await _context.Investments.FirstOrDefaultAsync(u => u.Id == account.Id);
-                if (_account == null)
+                ServiceResponse<InvestmentDTO> response = new ServiceResponse<InvestmentDTO>();
+                Investment _investment = await _context.Investments.FirstOrDefaultAsync(i => i.Id == investment.Id);
+                if (_investment == null)
                 {
                     response.Success = false;
                     response.Message = "Investment not found";
                     return response;
+                }else
+                {
+                    _investment.StartDate =investment.StartDate;
+                    _investment.StartMoney = investment.StartMoney;
+                    _investment.Account = investment.Account;
+                    _investment.InvestedMoney = investment.InvestedMoney;
+                    _investment.RoI = investment.RoI;
+                    _investment.InvestmentType = investment.InvestmentType;
                 }
-                var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
-                if (_user == null)
+                var _account = await _context.Users.FirstOrDefaultAsync(a => a.Id == investment.Account.Id);
+                if (_account == null)
                 {
                     response.Success = false;
-                    response.Message = "User not found";
+                    response.Message = "Account not found";
                     return response;
                 }
-                _account.InvestmentBalance = account.InvestmentBalance;
-                _account.InvestmentType = account.InvestmentType;
-                _account.Name = account.Name;
-                _account.User = new User { Id = account.UserId };
 
                 //Validation
-                InvestmentValidation validator = new InvestmentValidation();
-                var result = validator.Validate(account);
+                InvestmentValidations validator = new InvestmentValidations();
+                var result = validator.Validate(investment);
                 response.Message = ValidationResponse.GetValidatorResponse(result.IsValid, result.Errors);
                 if (response.Message == "")
                 {
@@ -122,32 +129,25 @@ namespace FinanceManagementLifesaver.Services
                     response.Success = false;
                     return response;
                 }
-
-                _context.Investments.Update(_account);
+                _context.Investments.Update(_investment);
                 await _context.SaveChangesAsync();
-                response.Data = account;
+                response.Data = investment;
                 return response;
             }
 
-            public async Task<ServiceResponse<Investment>> DeleteInvestment(int accountId)
+            public async Task<ServiceResponse<Investment>> DeleteInvestment(int investmendId)
             {
                 ServiceResponse<Investment> response = new ServiceResponse<Investment>();
-                Investment account = await _context.Investments.FirstOrDefaultAsync(u => u.Id == accountId);
-                if (account == null)
+                Investment investment = await _context.Investments.FirstOrDefaultAsync(i => i.Id == investmendId);
+                if (investment == null)
                 {
                     response.Success = false;
                     return response;
                 }
-                List<Transaction> transactions = await _context.Transactions.Where(t => t.Investment.Id == account.Id).ToListAsync();
-                if (transactions.Count > 0)
-                {
-                    _context.Transactions.RemoveRange(transactions);
-                }
-                _context.Investments.Remove(account);
+                _context.Investments.Remove(investment);
                 await _context.SaveChangesAsync();
-                response.Data = account;
+                response.Data = investment;
                 return response;
             }
         }
-    }
 }

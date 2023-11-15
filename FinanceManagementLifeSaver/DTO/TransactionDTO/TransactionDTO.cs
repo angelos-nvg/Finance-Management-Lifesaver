@@ -10,6 +10,5 @@ namespace FinanceManagementLifesaver.DTO
         public TransactionType TransactionType { get; set; } 
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public int ScopeId { get; set; }
     }
 }
