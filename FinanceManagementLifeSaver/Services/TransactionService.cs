@@ -42,17 +42,23 @@ namespace FinanceManagementLifesaver.Services
                 response.Success = false;
                 return response;
             }
-
+            Models.Account account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == transaction.AccountId);
+            if (account == null)
+            {
+                response.Success = false;
+                response.Message = "Account not found";
+                return response;
+            }
             //Hotfix
-            Transaction _transaction = new Transaction();
-            _transaction.Id = transaction.Id;
-            _transaction.Amount = (int)transaction.Amount;
-            _transaction.Description = transaction.Description;
-            _transaction.TransactionType = transaction.TransactionType;
-            _transaction.Account = new Models.Account { Id = transaction.AccountId };
+            Transaction _transaction = new Transaction {
+                Amount = (int)transaction.Amount,
+                Description = transaction.Description,
+                TransactionType = transaction.TransactionType,
+                Account = account
+            };
             await _context.Transactions.AddAsync(_transaction);
-
             await _context.SaveChangesAsync();
+            transaction.Id = _transaction.Id;
             response.Data = transaction;
             return response;
         }
@@ -61,6 +67,12 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
             Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);
+            if (transaction == null)
+            {
+                response.Success = false;
+                response.Message = "Transaction not Found";
+                return response;
+            }
             response.Data = _mapper.Map<Transaction, TransactionDTO>(transaction);
             return response;
         }
@@ -86,7 +98,18 @@ namespace FinanceManagementLifesaver.Services
                 response.Success = false;
                 return response;
             }
-
+            Models.Account account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == transaction.AccountId);
+            if (account == null)
+            {
+                response.Success = false;
+                response.Message = "Account not found";
+                return response;
+            }
+            _transaction.Amount = transaction.Amount;
+            _transaction.TransactionType = transaction.TransactionType;
+            _transaction.Date = transaction.Date;
+            _transaction.Description = transaction.Description;
+            _transaction.Account = account;
             //Validations
             TransactionValidations validator = new TransactionValidations();
             var result = validator.Validate(transaction, options =>

@@ -68,9 +68,9 @@ namespace FinanceManagementLifesaver.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(TransactionIdDTO transaction)
+        public async Task<ActionResult> Delete(int id)
         {
-            ServiceResponse<TransactionDTO> response = await _transactionService.DeleteTransaction(transaction);
+            ServiceResponse<TransactionDTO> response = await _transactionService.DeleteTransaction(new TransactionIdDTO {  Id = id });
             if (!response.Success)
             {
                 return NotFound(response);
