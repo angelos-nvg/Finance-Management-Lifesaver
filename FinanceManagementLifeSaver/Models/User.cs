@@ -12,5 +12,6 @@ namespace FinanceManagementLifesaver.Models
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int ScopeId { get; set; }
     }
 }
