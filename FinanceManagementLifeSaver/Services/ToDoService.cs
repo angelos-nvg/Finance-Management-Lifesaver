@@ -17,5 +17,13 @@ namespace FinanceManagementLifesaver.Services
 {
     public class ToDoService : IToDoService 
     {
+        private readonly DataContext _context;
+        private readonly IMapper _mapper;
+
+        public ToDoService(IMapper mapper, DataContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
     }
 }

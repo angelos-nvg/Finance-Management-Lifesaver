@@ -22,5 +22,6 @@ namespace FinanceManagementLifesaver.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         //public DbSet<Contact> Contacts { get; set; }
+        public DbSet<ToDo> ToDos { get; set; }
     }
 }

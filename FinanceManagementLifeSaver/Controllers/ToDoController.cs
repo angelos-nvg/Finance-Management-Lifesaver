@@ -13,7 +13,18 @@ using System.Threading.Tasks;
 
 namespace FinanceManagementLifesaver.Controllers
 {
+    [EnableCors("CorsPolicy")]
+    [Route("api/[controller]")]
+    [ApiController]
     public class ToDoController : ControllerBase
     {
+        private readonly IToDoService _todoService;
+
+        public ToDoController(IToDoService todoService)
+        {
+            _todoService = todoService;
+        }
+
+
     }
 }

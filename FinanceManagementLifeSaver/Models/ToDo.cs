@@ -1,4 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
+using FinanceManagementLifesaver.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
+using FinanceManagementLifesaver.DTO;
 
 namespace FinanceManagementLifesaver.Models
 {
