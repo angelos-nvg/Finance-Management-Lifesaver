@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Diagrams\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="DTO\InvestmentDTO\" />
   </ItemGroup>
 
