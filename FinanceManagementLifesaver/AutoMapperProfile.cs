@@ -13,9 +13,9 @@ namespace FinanceManagementLifesaver
             //CreateMap<Account, AccountDTO>();
             //CreateMap<IEnumerable<Account>, IEnumerable<AccountDTO>>();
             //CreateMap<AccountDTO, Account>();
-            //CreateMap<Transaction, TransactionDTO>();
+            CreateMap<Transaction, TransactionDTO>();
             //CreateMap<Account, AccountDTO>();
-            //CreateMap<TransactionDTO, Transaction>();
+            CreateMap<TransactionDTO, Transaction>();
             //CreateMap<TransactionUpdateDTO, Transaction>();
             //CreateMap<Transaction, TransactionSaveDTO>();
             //CreateMap<TransactionSaveDTO, Transaction>();
