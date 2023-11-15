@@ -14,5 +14,7 @@ namespace FinanceManagementLifesaver.Models
         public string Name { get; set; }
         public AccountType AccountType { get; set; }
         public User User { get; set; }
+        public Scope ScopeId { get; set; }
+
     }
 }
