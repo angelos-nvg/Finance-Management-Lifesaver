@@ -9,9 +9,11 @@ namespace FinanceManagementLifesaver.Models.BaseClass
         public int Id { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal InvestedMoney { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal StartMoney { get; set; }
         public DateTime StartDate { get; set; }
         public InvestmentType InvestmentType { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal RoI { get; set; }
         public Account Account { get; set; }
     }
