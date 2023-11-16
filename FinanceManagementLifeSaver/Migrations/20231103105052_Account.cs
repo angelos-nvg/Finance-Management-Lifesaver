@@ -30,7 +30,7 @@ namespace FinanceManagementLifesaver.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountBalance = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    AccountType = table.Column<int>(nullable: false),
+                    AccountType = table.Column<byte>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -51,7 +51,7 @@ namespace FinanceManagementLifesaver.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<int>(nullable: false),
-                    TransactionType = table.Column<int>(nullable: false),
+                    TransactionType = table.Column<byte>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     AccountId = table.Column<int>(nullable: true)

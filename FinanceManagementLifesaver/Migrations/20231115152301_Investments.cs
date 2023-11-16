@@ -36,7 +36,7 @@ namespace FinanceManagementLifesaver.Migrations
                     InvestedMoney = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     StartMoney = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
-                    InvestmentType = table.Column<int>(nullable: false),
+                    InvestmentType = table.Column<byte>(nullable: false),
                     RoI = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     AccountId = table.Column<int>(nullable: false)
                 },
