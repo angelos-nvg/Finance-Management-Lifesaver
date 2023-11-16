@@ -45,6 +45,18 @@ namespace FinanceManagementLifesaver.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("FinanceManagementLifesaver.Models.Scope", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Scope");
+                });
+
             modelBuilder.Entity("FinanceManagementLifesaver.Models.ToDo", b =>
                 {
                     b.Property<int>("Id")
@@ -76,8 +88,8 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -108,13 +120,21 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ScopeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ScopeId");
 
                     b.ToTable("Users");
                 });
@@ -131,6 +151,13 @@ namespace FinanceManagementLifesaver.Migrations
                     b.HasOne("FinanceManagementLifesaver.Models.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
+                });
+
+            modelBuilder.Entity("FinanceManagementLifesaver.Models.User", b =>
+                {
+                    b.HasOne("FinanceManagementLifesaver.Models.Scope", "Scope")
+                        .WithMany()
+                        .HasForeignKey("ScopeId");
                 });
 #pragma warning restore 612, 618
         }

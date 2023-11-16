@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.OpenApi.Writers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,5 +13,7 @@ namespace FinanceManagementLifesaver.Models
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public bool IsOwner { get; set; }
+        public Scope Scope { get; set; }
     }
 }
