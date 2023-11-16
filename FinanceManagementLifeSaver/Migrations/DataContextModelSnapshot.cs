@@ -29,8 +29,8 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<decimal>("AccountBalance")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("AccountType")
-                        .HasColumnType("int");
+                    b.Property<byte>("AccountType")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -61,8 +61,8 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<decimal>("InvestedMoney")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("InvestmentType")
-                        .HasColumnType("int");
+                    b.Property<byte>("InvestmentType")
+                        .HasColumnType("tinyint");
 
                     b.Property<decimal>("RoI")
                         .HasColumnType("decimal(18, 2)");
@@ -99,8 +99,8 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
+                    b.Property<byte>("TransactionType")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 

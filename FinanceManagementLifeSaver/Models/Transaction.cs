@@ -12,6 +12,7 @@ namespace FinanceManagementLifesaver.Models
         public int Id { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
+        [Column(TypeName = "tinyint")]
         public TransactionType TransactionType { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }

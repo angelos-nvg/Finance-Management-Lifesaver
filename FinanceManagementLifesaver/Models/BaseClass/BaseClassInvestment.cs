@@ -12,6 +12,7 @@ namespace FinanceManagementLifesaver.Models.BaseClass
         [Column(TypeName = "decimal(18, 2)")]
         public decimal StartMoney { get; set; }
         public DateTime StartDate { get; set; }
+        [Column(TypeName = "tinyint")]
         public InvestmentType InvestmentType { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal RoI { get; set; }
