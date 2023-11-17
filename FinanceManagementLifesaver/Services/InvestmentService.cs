@@ -2,6 +2,7 @@
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Interfaces;
+using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using FinanceManagementLifesaver.Validations;
@@ -149,5 +150,14 @@ namespace FinanceManagementLifesaver.Services
                 response.Data = investment;
                 return response;
             }
+
+        public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByRoI(int scopeId)
+        {
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
+            List<Investment> investments = (List<Investment>)await _context.Investments.Where(i => i.Account.Id == scopeId).ToListAsync();
+            investments.OrderBy(i => i.RoI);
+            response.Data = (IEnumerable<InvestmentDTO>)investments;
+            return response;
         }
+    }
 }
