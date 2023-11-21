@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Validations;
 using FinanceManagementLifesaver.DTO.ToDoDTO;
+using FinanceManagementLifesaver.Migrations;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -27,9 +28,22 @@ namespace FinanceManagementLifesaver.Services
             _context = context;
         }
 
-        public Task<ServiceResponse<ToDoSaveDTO>> CreateToDo(ToDoSaveDTO toDo)
+        public async Task<ServiceResponse<ToDoSaveDTO>> CreateToDo(ToDoSaveDTO toDo)
         {
-            throw new NotImplementedException();
+            ServiceResponse<ToDoSaveDTO> response = new ServiceResponse<ToDoSaveDTO>();
+                ToDo _toDo = new ToDo
+                {
+                     StartDate = toDo.StartDate,
+                     EndDate = toDo.EndDate,
+                     Description = toDo.Description,
+                     UserId = toDo.UserId,
+                };
+
+            await _context.ToDos.AddAsync(_toDo);
+            await _context.SaveChangesAsync();
+            toDo.Id = _toDo.Id;
+            response.Data = toDo;
+            return response;
         }
 
         public Task<ServiceResponse<ToDoIDDTO>> DeleteToDos(ToDoIDDTO toDoID)
