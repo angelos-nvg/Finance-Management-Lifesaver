@@ -52,3 +52,4 @@ FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.pd
 *.cache
 /.vs/FinanceManagementLifesaver/v17/.suo
 >>>>>>> origin/main
+/FinanceManagementLifesaver/FinanceManagementLifesaver.csproj
