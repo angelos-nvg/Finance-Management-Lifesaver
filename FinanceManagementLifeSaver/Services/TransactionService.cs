@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Validations;
 using FluentValidation;
 using System;
