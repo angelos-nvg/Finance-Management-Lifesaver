@@ -51,12 +51,14 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            Account insertAccount = new Account();
-            insertAccount.AccountBalance = account.AccountBalance;
-            insertAccount.AccountType = account.AccountType;
-            insertAccount.User = _user;
-            insertAccount.Name = account.Name;
-            insertAccount.Id = account.Id;
+            Account insertAccount = new Account
+            {
+                AccountBalance = account.AccountBalance,
+                AccountType = account.AccountType,
+                User = _user,
+                Name = account.Name,
+                Id = account.Id
+            };
 
             await _context.Accounts.AddAsync(insertAccount);
 			await _context.SaveChangesAsync();

@@ -19,6 +19,7 @@ namespace FinanceManagementLifesaver
             //CreateMap<TransactionUpdateDTO, Transaction>();
             //CreateMap<Transaction, TransactionSaveDTO>();
             //CreateMap<TransactionSaveDTO, Transaction>();
+            CreateMap<Investment, InvestmentDTO>();
         } 
     }
 }

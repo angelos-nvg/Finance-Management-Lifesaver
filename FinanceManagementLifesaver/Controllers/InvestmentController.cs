@@ -41,6 +41,17 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
+        [HttpGet("InvestmentsByTime/{timeframe}")]
+        public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(int timeframe)
+        {
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsTillMonthBack(timeframe);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> Post(InvestmentDTO investment)
         {

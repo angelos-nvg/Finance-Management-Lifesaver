@@ -7,6 +7,7 @@ using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using FinanceManagementLifesaver.Validations;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -154,7 +155,20 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByRoI(int scopeId)
         {
             ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
-            List<Investment> investments = (List<Investment>)await _context.Investments.Where(i => i.Account.Id == scopeId).ToListAsync();
+            List<Investment> investments = await _context.Investments.Where(i => i.Account.Id == scopeId).ToListAsync();
+            investments.OrderBy(i => i.RoI);
+            response.Data = (IEnumerable<InvestmentDTO>)investments;
+            return response;
+        }
+        public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(int timeframe)
+        {
+            if(!InvestmentValidations.IsTimeFrameValid(timeframe))
+            {
+                timeframe = 3;
+            }
+            var filter = DateTime.Today.AddMonths(-timeframe);
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
+            IEnumerable<Investment> investments = await _context.Investments.Where(i => i.StartDate < filter).ToListAsync();
             investments.OrderBy(i => i.RoI);
             response.Data = (IEnumerable<InvestmentDTO>)investments;
             return response;
