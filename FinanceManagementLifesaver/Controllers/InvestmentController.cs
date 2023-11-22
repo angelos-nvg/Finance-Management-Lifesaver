@@ -41,6 +41,17 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
+        [HttpGet("InvestmentsByTime/{timeframe}")]
+        public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(int timeframe)
+        {
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsTillMonthBack(timeframe);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> Post(InvestmentDTO investment)
         {
@@ -48,6 +59,17 @@ namespace FinanceManagementLifesaver.Controllers
             if (!response.Success)
             {
                 return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet("InvestmentsByRoI")]
+        public async Task<ActionResult<IEnumerable<ServiceResponse<InvestmentDTO>>>> GetInvestmentsByRoI(int scopeId)
+        {
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsByRoI(scopeId);
+            if (!response.Success)
+            {
+                return NotFound();
             }
             return Ok(response);
         }

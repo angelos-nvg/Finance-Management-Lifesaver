@@ -27,5 +27,12 @@ namespace FinanceManagementLifesaver.Validations
                 RuleFor(i => i.Account.Id).NotNull().WithMessage("Jede Transaktion braucht einen dazugehörigen Account");
             });
         }
+        public static bool IsTimeFrameValid(int timeframe)
+        {
+            if (timeframe >= 37 || timeframe < 0) {
+                return false;
+            }
+            return true;
+        }
     }
 }
