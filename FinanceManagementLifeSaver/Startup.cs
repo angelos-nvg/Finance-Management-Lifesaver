@@ -1,6 +1,8 @@
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Services;
+using Hangfire.SqlServer;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagementLifesaver.BackgroundWorker;
+
 namespace FinanceManagementLifesaver
 {
     public class Startup
@@ -41,6 +45,10 @@ namespace FinanceManagementLifesaver
                     });
             });
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            JobStorage.Current = new SqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddHangfireServer();
+            RecurringJob.AddOrUpdate("ExecuteMonthlyClosing", () => BackgroundWorkerService.ExecuteMonthlyClosing(), "1 2 * * *");
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
@@ -69,6 +77,8 @@ namespace FinanceManagementLifesaver
             app.UseSwagger();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
+
+            app.UseHangfireDashboard();
 
             app.UseStaticFiles();
 
