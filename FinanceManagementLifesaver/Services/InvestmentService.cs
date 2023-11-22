@@ -66,16 +66,16 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            public async Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int accountId)
+            public async Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int investmentId)
             {
                 ServiceResponse<InvestmentDTO> response = new ServiceResponse<InvestmentDTO>();
-                Investment account = await _context.Investments.FirstOrDefaultAsync(u => u.Id == accountId);
-                if (account == null)
+                Investment investment = await _context.Investments.FirstOrDefaultAsync(u => u.Id == investmentId);
+                if (investment == null)
                 {
                     response.Success = false;
                     return response;
                 }
-                response.Data = _mapper.Map<Investment, InvestmentDTO>(account);
+                response.Data = _mapper.Map<Investment, InvestmentDTO>(investment);
                 return response;
             }
 
@@ -155,9 +155,9 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByRoI(int scopeId)
         {
             ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
-            List<Investment> investments = await _context.Investments.Where(i => i.Account.Id == scopeId).ToListAsync();
+            List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == scopeId).ToListAsync());
             investments.OrderBy(i => i.RoI);
-            response.Data = (IEnumerable<InvestmentDTO>)investments;
+            response.Data = investments;
             return response;
         }
         public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(int timeframe)
@@ -166,11 +166,11 @@ namespace FinanceManagementLifesaver.Services
             {
                 timeframe = 3;
             }
-            var filter = DateTime.Today.AddMonths(-timeframe);
+            var filter = DateTime.Today.AddMonths(timeframe);
             ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
-            IEnumerable<Investment> investments = await _context.Investments.Where(i => i.StartDate < filter).ToListAsync();
+            List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.StartDate < filter).ToListAsync());
             investments.OrderBy(i => i.RoI);
-            response.Data = (IEnumerable<InvestmentDTO>)investments;
+            response.Data = investments;
             return response;
         }
     }

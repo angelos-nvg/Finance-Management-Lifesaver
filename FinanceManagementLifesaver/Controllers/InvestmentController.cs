@@ -63,7 +63,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{id}")]
+        [HttpGet("InvestmentsByRoI")]
         public async Task<ActionResult<IEnumerable<ServiceResponse<InvestmentDTO>>>> GetInvestmentsByRoI(int scopeId)
         {
             ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsByRoI(scopeId);
