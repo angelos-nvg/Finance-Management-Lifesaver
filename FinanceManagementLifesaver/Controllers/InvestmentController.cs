@@ -1,5 +1,7 @@
 ﻿using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Interfaces;
+using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.AspNetCore.Cors;
@@ -20,8 +22,8 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _investmentService = investmentService;
         }
-        [HttpGet("InvestmentsByAccount/{accountId}")]
-        public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsByAccountId(int accountId)
+        [HttpPost("InvestmentsByAccount")]
+        public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsByAccountId(AccountIdDTO accountId)
         {
             ServiceResponse<IEnumerable<Investment>> response = await _investmentService.GetInvestmentsByAccountId(accountId);
             if (!response.Success)
@@ -30,10 +32,10 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> GetInvestmentById(int id)
+        [HttpPost("id")]
+        public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> GetInvestmentById(InvestmentIdDTO investment)
         {
-            ServiceResponse<InvestmentDTO> response = await _investmentService.GetInvestmentById(id);
+            ServiceResponse<InvestmentDTO> response = await _investmentService.GetInvestmentById(investment.Id);
             if (!response.Success)
             {
                 return NotFound();
@@ -41,10 +43,10 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpGet("InvestmentsByTime/{timeframe}")]
-        public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(int timeframe)
+        [HttpPost("InvestmentsByTime")]
+        public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(InvestmentTimeDTO InvestTimeDTO)
         {
-            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsTillMonthBack(timeframe);
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsTillMonthBack(InvestTimeDTO);
             if (!response.Success)
             {
                 return NotFound();
@@ -52,7 +54,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> Post(InvestmentDTO investment)
         {
             ServiceResponse<InvestmentDTO> response = await _investmentService.CreateInvestment(investment);
@@ -63,10 +65,10 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpGet("InvestmentsByRoI")]
-        public async Task<ActionResult<IEnumerable<ServiceResponse<InvestmentDTO>>>> GetInvestmentsByRoI(int scopeId)
+        [HttpPost("InvestmentsByRoI")]
+        public async Task<ActionResult<IEnumerable<ServiceResponse<InvestmentDTO>>>> GetInvestmentsByRoI(InvestmentIdDTO scope)
         {
-            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsByRoI(scopeId);
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsByRoI(scope);
             if (!response.Success)
             {
                 return NotFound();

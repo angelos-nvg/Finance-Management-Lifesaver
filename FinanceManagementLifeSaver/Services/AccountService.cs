@@ -66,10 +66,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
 		}
 
-        public async Task<ServiceResponse<AccountDTO>> GetAccountById(int accountId)
+        public async Task<ServiceResponse<AccountDTO>> GetAccountById(AccountIdDTO accountId)
         {
 			ServiceResponse<AccountDTO> response = new ServiceResponse<AccountDTO>();
-            Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId);
+            Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId.Id);
             if (account == null)
             {
                 response.Success = false;
@@ -79,10 +79,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(int userId)
+        public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(UserIdDTO user)
         {
             ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
-            List<Account> accounts = (List<Account>)await _context.Accounts.Where(u => u.User.Id == userId).ToListAsync();
+            List<Account> accounts = await _context.Accounts.Where(u => u.User.Id == user.Id).ToListAsync();
             if (!accounts.Any())
             {
                 response.Success = false;
@@ -134,10 +134,10 @@ namespace FinanceManagementLifesaver.Services
 			return response;
         }
 
-        public async Task<ServiceResponse<Account>> DeleteAccount(int accountId)
+        public async Task<ServiceResponse<Account>> DeleteAccount(AccountIdDTO accountId)
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
-			Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId);
+			Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId.Id);
             if (account == null)
             {
                 response.Success = false;
