@@ -12,7 +12,9 @@ namespace FinanceManagementLifesaver.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal AccountBalance { get; set; }
         public string Name { get; set; }
+        [Column(TypeName = "tinyint")]
         public AccountType AccountType { get; set; }
         public User User { get; set; }
+        public int ScopeId { get; set; }
     }
 }

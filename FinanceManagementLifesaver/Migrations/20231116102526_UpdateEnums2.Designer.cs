@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceManagementLifesaver.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231106135831_AccountUpdate")]
-    partial class AccountUpdate
+    [Migration("20231116102526_UpdateEnums2")]
+    partial class UpdateEnums2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,11 +31,14 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<decimal>("AccountBalance")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("AccountType")
-                        .HasColumnType("int");
+                    b.Property<byte>("AccountType")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ScopeId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -45,6 +48,38 @@ namespace FinanceManagementLifesaver.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("FinanceManagementLifesaver.Models.Investment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("InvestedMoney")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<byte>("InvestmentType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<decimal>("RoI")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("StartMoney")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Investments");
                 });
 
             modelBuilder.Entity("FinanceManagementLifesaver.Models.Transaction", b =>
@@ -57,8 +92,8 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -66,8 +101,8 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
+                    b.Property<byte>("TransactionType")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -95,6 +130,9 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ScopeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -105,6 +143,13 @@ namespace FinanceManagementLifesaver.Migrations
                     b.HasOne("FinanceManagementLifesaver.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("FinanceManagementLifesaver.Models.Investment", b =>
+                {
+                    b.HasOne("FinanceManagementLifesaver.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
                 });
 
             modelBuilder.Entity("FinanceManagementLifesaver.Models.Transaction", b =>
