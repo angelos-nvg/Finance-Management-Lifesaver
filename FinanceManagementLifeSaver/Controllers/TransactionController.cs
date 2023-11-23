@@ -24,18 +24,18 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _transactionService = transactionService;
         }
-        [HttpGet("TransactionsByAccount/{accountId}")]
-        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(int accountId)
+        [HttpPost("TransactionsByAccount/")]
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO account)
         {
-            ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(accountId);
+            ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(account);
             if (!response.Success)
             {
                 return NotFound();
             }
             return Ok(response);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<TransactionDTO>>> GetTransactionById(int id)
+        [HttpPost("id")]
+        public async Task<ActionResult<ServiceResponse<TransactionDTO>>> GetTransactionById(TransactionIdDTO id)
         {
             ServiceResponse<TransactionDTO> response = await _transactionService.GetTransactionById(id);
             if (!response.Success)
@@ -67,10 +67,10 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("id")]
+        public async Task<ActionResult> Delete(TransactionIdDTO id)
         {
-            ServiceResponse<TransactionDTO> response = await _transactionService.DeleteTransaction(new TransactionIdDTO {  Id = id });
+            ServiceResponse<TransactionDTO> response = await _transactionService.DeleteTransaction(id);
             if (!response.Success)
             {
                 return NotFound(response);
