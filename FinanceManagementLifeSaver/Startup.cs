@@ -45,6 +45,7 @@ namespace FinanceManagementLifesaver
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
             //services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IToDoService, ToDoService>();
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {

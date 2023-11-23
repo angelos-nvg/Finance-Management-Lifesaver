@@ -1,5 +1,6 @@
 ﻿using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.DTO.AccountDTO;
+using FinanceManagementLifesaver.DTO.ToDoDTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
@@ -25,6 +26,21 @@ namespace FinanceManagementLifesaver.Controllers
             _todoService = todoService;
         }
 
-
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ToDo>>> GetAllToDos()
+        {
+            ServiceResponse<IEnumerable<ToDo>> response = await _todoService.GetAllToDos();
+            return Ok(response);
+        }
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<ToDoSaveDTO>>> Post(ToDoSaveDTO toDo)
+        {
+            ServiceResponse<ToDoSaveDTO> response = await _todoService.CreateToDo(toDo);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Created(Request.HttpContext.ToString(), response);
+        }
     }
 }

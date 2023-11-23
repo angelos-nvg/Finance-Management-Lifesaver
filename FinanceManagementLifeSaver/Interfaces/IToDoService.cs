@@ -17,9 +17,9 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface IToDoService
     {
+        Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDos();
         Task<ServiceResponse<ToDoSaveDTO>> CreateToDo(ToDoSaveDTO toDo);
         Task<ServiceResponse<IEnumerable<ToDo>>> GetToDoByUserId(int userId);
-        Task<ServiceResponse<ToDoIDDTO>> GetAllToDos(int id);
         Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date);
         Task<ServiceResponse<ToDoSaveDTO>> UpdateAllToDos(ToDoSaveDTO todos);
         Task<ServiceResponse<ToDoIDDTO>> DeleteToDos(ToDoIDDTO toDoID);

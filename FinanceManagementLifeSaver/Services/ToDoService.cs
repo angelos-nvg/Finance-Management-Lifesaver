@@ -50,12 +50,6 @@ namespace FinanceManagementLifesaver.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<ServiceResponse<ToDoIDDTO>> GetAllToDos(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date)
         {
             throw new NotImplementedException();
@@ -74,6 +68,13 @@ namespace FinanceManagementLifesaver.Services
         public Task<ServiceResponse<ToDoSaveDTO>> UpdateAllToDos(ToDoSaveDTO todos)
         {
             throw new NotImplementedException();
+        }
+        public async Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDos()
+        {
+            ServiceResponse<IEnumerable<ToDo>> response = new ServiceResponse<IEnumerable<ToDo>>();
+            IEnumerable<ToDo> todos = await _context.ToDos.ToListAsync();
+            response.Data = todos;
+            return response;
         }
     }
 }
