@@ -61,7 +61,7 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             ServiceResponse<User> response = await _userService.DeleteUser(id);
