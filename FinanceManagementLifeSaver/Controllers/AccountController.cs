@@ -44,7 +44,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response); // 200 OK mit dem gefundenen Account
         }
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> Post(AccountSaveDTO accountDTO)
+        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> PostAccount(AccountSaveDTO accountDTO)
         {
             ServiceResponse<AccountSaveDTO> response = await _accountService.CreateAccount(accountDTO);
             if (!response.Success)
@@ -54,7 +54,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Created(Request.HttpContext.ToString(), response);
         }
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> Put(AccountSaveDTO accountDTO)
+        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> PutAccount(AccountSaveDTO accountDTO)
         {
             ServiceResponse<AccountSaveDTO> response = await _accountService.UpdateAccount(accountDTO);
             if (!response.Success)
@@ -64,7 +64,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpDelete("Delete")]
-        public async Task<ActionResult<ServiceResponse<Account>>> Delete(AccountIdDTO account) {
+        public async Task<ActionResult<ServiceResponse<Account>>> DeleteAccount(AccountIdDTO account) {
             ServiceResponse<Account> response = await _accountService.DeleteAccount(account);
             if (!response.Success)
             {

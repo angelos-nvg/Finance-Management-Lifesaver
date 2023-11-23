@@ -32,7 +32,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> Get(UserLoginDTO user)
+        public async Task<IActionResult> GetUserLogin(UserLoginDTO user)
         {
             ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(user);
             if (!response.Success)
@@ -42,7 +42,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> Post(UserSaveDTO userSaveDTO)
+        public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> PostUser(UserSaveDTO userSaveDTO)
         {
             ServiceResponse<UserSaveDTO> response = await _userService.CreateUser(userSaveDTO);
             if (!response.Success)
@@ -52,7 +52,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Created(Request.HttpContext.ToString() , response);
         }
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> Put(UserSaveDTO user)
+        public async Task<ActionResult<ServiceResponse<UserSaveDTO>>> PutUser(UserSaveDTO user)
         {
             ServiceResponse<UserSaveDTO> response = await _userService.UpdateUser(user);
             if (!response.Success)
@@ -62,7 +62,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             ServiceResponse<User> response = await _userService.DeleteUser(id);
             if (!response.Success)

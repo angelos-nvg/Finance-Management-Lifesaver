@@ -46,7 +46,7 @@ namespace FinanceManagementLifesaver.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<TransactionSaveDTO>>> Post(TransactionSaveDTO transaction)
+        public async Task<ActionResult<ServiceResponse<TransactionSaveDTO>>> PostTransaction(TransactionSaveDTO transaction)
         {
             ServiceResponse<TransactionSaveDTO> response = await _transactionService.CreateTransaction(transaction);
             if (!response.Success)
@@ -57,7 +57,7 @@ namespace FinanceManagementLifesaver.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<TransactionSaveDTO>>> Put(TransactionSaveDTO transaction)
+        public async Task<ActionResult<ServiceResponse<TransactionSaveDTO>>> PutTransaction(TransactionSaveDTO transaction)
         {
             ServiceResponse<TransactionSaveDTO> response = await _transactionService.UpdateTransaction(transaction);
             if (!response.Success)
@@ -68,7 +68,7 @@ namespace FinanceManagementLifesaver.Controllers
         }
 
         [HttpDelete("id")]
-        public async Task<ActionResult> Delete(TransactionIdDTO id)
+        public async Task<ActionResult> DeleteTransaction(TransactionIdDTO id)
         {
             ServiceResponse<TransactionDTO> response = await _transactionService.DeleteTransaction(id);
             if (!response.Success)
