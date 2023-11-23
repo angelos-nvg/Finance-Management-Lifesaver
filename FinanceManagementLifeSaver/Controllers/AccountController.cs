@@ -23,20 +23,20 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _accountService = accountService;
         }
-        [HttpGet("ByUserId/{userId}")]
-        public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAccountsByUserId(int userId)
+        [HttpPost("ByUserId")]
+        public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAccountsByUserId(UserIdDTO user)
         {
-            ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAccountsByUserId(userId);
+            ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAccountsByUserId(user);
             if (!response.Success)
             {
                 return NotFound();
             }
             return Ok(response);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<AccountDTO>>> GetAccountById(int id)
+        [HttpPost("id")]
+        public async Task<ActionResult<ServiceResponse<AccountDTO>>> GetAccountById(AccountIdDTO account)
         {
-            ServiceResponse<AccountDTO> response = await _accountService.GetAccountById(id);
+            ServiceResponse<AccountDTO> response = await _accountService.GetAccountById(account);
             if (!response.Success)
             {
                 return NotFound(); // 404 Not Found, wenn der Account nicht existiert
@@ -63,9 +63,9 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<Account>>> Delete(int id) {
-            ServiceResponse<Account> response = await _accountService.DeleteAccount(id);
+        [HttpDelete("Delete")]
+        public async Task<ActionResult<ServiceResponse<Account>>> Delete(AccountIdDTO account) {
+            ServiceResponse<Account> response = await _accountService.DeleteAccount(account);
             if (!response.Success)
             {
                 return NotFound();

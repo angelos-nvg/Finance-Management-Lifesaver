@@ -2,10 +2,12 @@
 using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.Interfaces;
+using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using FinanceManagementLifesaver.Validations;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,23 +66,24 @@ namespace FinanceManagementLifesaver.Services
                 return response;
             }
 
-            public async Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int accountId)
+
+        public async Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int investmentId)
+        {
+            ServiceResponse<InvestmentDTO> response = new ServiceResponse<InvestmentDTO>();
+            Investment investment = await _context.Investments.FirstOrDefaultAsync(u => u.Id == investmentId);
+            if (investment == null)
             {
-                ServiceResponse<InvestmentDTO> response = new ServiceResponse<InvestmentDTO>();
-                Investment account = await _context.Investments.FirstOrDefaultAsync(u => u.Id == accountId);
-                if (account == null)
-                {
-                    response.Success = false;
-                    return response;
-                }
-                response.Data = _mapper.Map<Investment, InvestmentDTO>(account);
+                response.Success = false;
                 return response;
             }
+            response.Data = _mapper.Map<Investment, InvestmentDTO>(investment);
+            return response;
+        }
 
-            public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(int accountId)
+        public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(AccountIdDTO account)
             {
                 ServiceResponse<IEnumerable<Investment>> response = new ServiceResponse<IEnumerable<Investment>>();
-                List<Investment> investments = (List<Investment>)await _context.Investments.Where(a => a.Id == accountId).ToListAsync();
+                List<Investment> investments = (List<Investment>)await _context.Investments.Where(a => a.Id == account.Id).ToListAsync();
                 if (!investments.Any())
                 {
                     response.Success = false;
@@ -149,5 +152,27 @@ namespace FinanceManagementLifesaver.Services
                 response.Data = investment;
                 return response;
             }
+
+        public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByRoI(InvestmentIdDTO scope)
+        {
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
+            List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == scope.Id).ToListAsync());
+            investments.OrderBy(i => i.RoI);
+            response.Data = investments;
+            return response;
         }
+        public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(InvestmentTimeDTO ITD)
+        {
+            if(!InvestmentValidations.IsTimeFrameValid(ITD.Timeframe))
+            {
+                ITD.Timeframe = 3;
+            }
+            var filter = DateTime.Today.AddMonths(ITD.Timeframe);
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
+            List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.StartDate < filter && i.Account.Id == ITD.ScopeId).ToListAsync());
+            investments.OrderBy(i => i.RoI);
+            response.Data = investments;
+            return response;
+        }
+    }
 }

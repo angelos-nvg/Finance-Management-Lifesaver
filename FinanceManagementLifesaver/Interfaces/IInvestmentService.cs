@@ -10,8 +10,10 @@ namespace FinanceManagementLifesaver.Interfaces
     {
         Task<ServiceResponse<InvestmentDTO>> CreateInvestment(InvestmentDTO investment);
         Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int investmentId);
-        Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(int accountId);
+        Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(AccountIdDTO accountId);
         Task<ServiceResponse<InvestmentDTO>> UpdateInvestment(InvestmentDTO investment);
         Task<ServiceResponse<Investment>> DeleteInvestment(int investmentId);
+        Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByRoI(InvestmentIdDTO scopeId);
+        Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(InvestmentTimeDTO iTD);
     }
 }
