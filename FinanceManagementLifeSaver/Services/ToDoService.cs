@@ -98,11 +98,18 @@ namespace FinanceManagementLifesaver.Services
             response.Data = toDos;
             return response;
         }
-        public Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date)
+        public async Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDosByDate(DateTime enddate)
         {
-            throw new NotImplementedException();
+            ServiceResponse<IEnumerable<ToDo>> response = new ServiceResponse<IEnumerable<ToDo>>();
+            IEnumerable<ToDo> todoByDate = await _context.ToDos.Where(t => t.EndDate == enddate).ToListAsync();
+            if (!response.Success)
+            {
+                response.Success = false;
+                response.Message = "Es gibt kein Todo für diesen Ablaufdatum";
+            }
+            response.Data = todoByDate;
+            return response;
         }
-
         public Task<ServiceResponse<ToDo>> GetToDoByFilter(DateTime startDate, DateTime endDate)
         {
             throw new NotImplementedException();

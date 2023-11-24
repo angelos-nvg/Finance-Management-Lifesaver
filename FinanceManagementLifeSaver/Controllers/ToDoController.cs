@@ -72,5 +72,15 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("ByDate/{Date}")]
+        public async Task<ActionResult<IEnumerable<ToDo>>> GetAllToDosByDate(DateTime enddate)
+        {
+            ServiceResponse<IEnumerable<ToDo>> response = await _todoService.GetAllToDosByDate(enddate);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }
