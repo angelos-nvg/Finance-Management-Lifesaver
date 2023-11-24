@@ -13,7 +13,6 @@ namespace FinanceManagementLifesaver.Models
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int ScopeId { get; set; }
         public bool IsOwner { get; set; }
         public Scope Scope { get; set; }
     }
