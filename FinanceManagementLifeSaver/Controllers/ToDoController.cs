@@ -42,5 +42,25 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Created(Request.HttpContext.ToString(), response);
         }
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<ToDoSaveDTO>>> Put(ToDoSaveDTO todo)
+        {
+                ServiceResponse<ToDoSaveDTO> response = await _todoService.UpdateToDo(todo);
+                if (!response.Success)
+                {
+                    return BadRequest(response);
+                }
+                return Ok(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            ServiceResponse<ToDoIDDTO> response = await _todoService.DeleteToDos(id);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }

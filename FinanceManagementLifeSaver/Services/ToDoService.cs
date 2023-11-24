@@ -45,10 +45,43 @@ namespace FinanceManagementLifesaver.Services
             response.Data = toDo;
             return response;
         }
-
-        public Task<ServiceResponse<ToDoIDDTO>> DeleteToDos(ToDoIDDTO toDoID)
+        public async Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDos()
         {
-            throw new NotImplementedException();
+            ServiceResponse<IEnumerable<ToDo>> response = new ServiceResponse<IEnumerable<ToDo>>();
+            IEnumerable<ToDo> todos = await _context.ToDos.ToListAsync();
+            response.Data = todos;
+            return response;
+        }
+
+        public async  Task<ServiceResponse<ToDoIDDTO>> DeleteToDos(int toDoId)
+        {
+            ServiceResponse<ToDoIDDTO> response = new ServiceResponse<ToDoIDDTO>();
+            ToDo toDo = await _context.ToDos.FirstOrDefaultAsync(u => u.Id == toDoId);
+            if (toDo == null)
+            {
+                response.Success = false;
+                return response;
+            }
+            _context.ToDos.Remove(toDo);
+            await _context.SaveChangesAsync();
+            response.Success = true;
+            return response;
+        }
+        public async Task<ServiceResponse<ToDoSaveDTO>> UpdateToDo(ToDoSaveDTO todo)
+        {
+            ServiceResponse<ToDoSaveDTO> response = new ServiceResponse<ToDoSaveDTO>();
+            ToDo _todo = await _context.ToDos.FirstOrDefaultAsync(u => u.Id == todo.Id);
+            _todo.Description = todo.Description;
+            _todo.StartDate = todo.StartDate;
+            _todo.EndDate = todo.EndDate;
+            _todo.UserId = todo.UserId;
+            if (_todo == null)
+            {
+                response.Success = false;
+                response.Message = "todo cannot be edit";
+                return response;
+            }
+            return response;
         }
         public Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date)
         {
@@ -63,18 +96,6 @@ namespace FinanceManagementLifesaver.Services
         public Task<ServiceResponse<IEnumerable<ToDo>>> GetToDoByUserId(int userId)
         {
             throw new NotImplementedException();
-        }
-
-        public Task<ServiceResponse<ToDoSaveDTO>> UpdateAllToDos(ToDoSaveDTO todos)
-        {
-            throw new NotImplementedException();
-        }
-        public async Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDos()
-        {
-            ServiceResponse<IEnumerable<ToDo>> response = new ServiceResponse<IEnumerable<ToDo>>();
-            IEnumerable<ToDo> todos = await _context.ToDos.ToListAsync();
-            response.Data = todos;
-            return response;
         }
     }
 }
