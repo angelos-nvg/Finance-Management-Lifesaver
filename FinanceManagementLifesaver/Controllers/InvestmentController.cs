@@ -32,7 +32,7 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpPost("id")]
+        [HttpPost("GetInvestment")]
         public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> GetInvestmentById(InvestmentIdDTO investment)
         {
             ServiceResponse<InvestmentDTO> response = await _investmentService.GetInvestmentById(investment.Id);
@@ -54,8 +54,8 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Create")]
-        public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> PostInvestment(InvestmentDTO investment)
+        [HttpPost("AddInvestment")]
+        public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> AddInvestment(InvestmentDTO investment)
         {
             ServiceResponse<InvestmentDTO> response = await _investmentService.CreateInvestment(investment);
             if (!response.Success)
@@ -76,7 +76,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpPut("UpdateInvestment")]
         public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> UpdateInvestment(InvestmentDTO investment)
         {
             ServiceResponse<InvestmentDTO> response = await _investmentService.UpdateInvestment(investment);
@@ -87,7 +87,7 @@ namespace FinanceManagementLifesaver.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
+        [HttpDelete("DeleteInvestment")]
         public async Task<ActionResult> DeleteInvestment(int id)
         {
             ServiceResponse<Investment> response = await _investmentService.DeleteInvestment(id);
