@@ -81,6 +81,9 @@ namespace FinanceManagementLifesaver.Services
                 response.Message = "todo cannot be edit";
                 return response;
             }
+            _context.ToDos.Update(_todo);
+            await _context.SaveChangesAsync();
+            response.Data = todo;
             return response;
         }
         public Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date)
