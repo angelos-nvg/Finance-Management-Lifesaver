@@ -1,7 +1,7 @@
 ﻿using FinanceManagementLifesaver.DTO;
 using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Interfaces;
-using FinanceManagementLifesaver.Migrations;
+//using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.AspNetCore.Cors;

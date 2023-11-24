@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Validations;
 using FinanceManagementLifesaver.DTO.ToDoDTO;
-using FinanceManagementLifesaver.Migrations;
+//using FinanceManagementLifesaver.Migrations;
 
 namespace FinanceManagementLifesaver.Services
 {
