@@ -31,14 +31,10 @@ namespace FinanceManagementLifesaver.Controllers
             ServiceResponse<IEnumerable<User>> response = await _userService.GetAllUsers();
             return Ok(response);
         }
-        [HttpGet("{email}/{password}")]
-        public async Task<IActionResult> Get(string email, string password)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Get(UserLoginDTO user)
         {
-            ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(
-                new UserLoginDTO{ 
-                    Email = email, 
-                    Password = password
-                });
+            ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(user);
             if (!response.Success)
             {
                 return NotFound();

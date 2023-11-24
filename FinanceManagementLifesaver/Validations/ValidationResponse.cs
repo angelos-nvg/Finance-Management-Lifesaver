@@ -11,7 +11,7 @@ namespace FinanceManagementLifesaver.Validations
             {
                 for (int i = 0; i < result.Count; i++)
                 {
-                    errorMsg += result[i] + " \n";
+                    errorMsg += result[i] + " ";
                 }
                 return errorMsg;
             }

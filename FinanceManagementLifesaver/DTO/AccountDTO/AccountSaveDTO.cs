@@ -8,5 +8,6 @@ namespace FinanceManagementLifesaver.DTO
         public decimal AccountBalance { get; set; }
         public AccountType AccountType { get; set; }
         public int UserId { get; set; }
+        public int ScopeId { get; set; }
     }
 }

@@ -13,14 +13,17 @@ namespace FinanceManagementLifesaver.Data
         {
 
         }
+        public DataContext() { }
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Transaction>();
         //}
-        public DataContext() { }
+
+
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Investment> Investments { get; set; }
         //public DbSet<Contact> Contacts { get; set; }
         public DbSet<ToDo> ToDos { get; set; }
     }

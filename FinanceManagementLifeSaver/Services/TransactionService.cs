@@ -48,7 +48,6 @@ namespace FinanceManagementLifesaver.Services
                 response.Message = "Account not found";
                 return response;
             }
-            //Hotfix
             Transaction _transaction = new Transaction {
                 Amount = (int)transaction.Amount,
                 Description = transaction.Description,
@@ -62,10 +61,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(int transactionId)
+        public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id);
             if (transaction == null)
             {
                 response.Success = false;
@@ -76,10 +75,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(int accountId)
+        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
             ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Account.Id == accountId).ToListAsync();
+            List<Transaction> transactions = await _context.Transactions.Where(a => a.Account.Id == accountId.Id).ToListAsync();
             if (!transactions.Any())
             {
                 response.Success = false;

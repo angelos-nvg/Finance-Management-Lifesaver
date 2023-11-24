@@ -52,4 +52,14 @@ FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.pd
 *.cache
 /.vs/FinanceManagementLifesaver/v17/.suo
 >>>>>>> origin/main
+/FinanceManagementLifeSaver/obj/project.assets.json
+/FinanceManagementLifeSaver/obj/FinanceManagementLifesaver.csproj.nuget.g.props
+/FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.pdb
+/FinanceManagementLifeSaver/obj/FinanceManagementLifesaver.csproj.nuget.dgspec.json
+/FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.GeneratedMSBuildEditorConfig.editorconfig
+/FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.csproj.FileListAbsolute.txt
+/FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.dll
+/FinanceManagementLifeSaver/obj/Debug/netcoreapp3.1/FinanceManagementLifesaver.dll
+/FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.runtimeconfig.dev.json
+/FinanceManagementLifesaver/bin/Debug/netcoreapp3.1/FinanceManagementLifesaver.pdb
 /FinanceManagementLifesaver/FinanceManagementLifesaver.csproj
