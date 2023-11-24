@@ -17,12 +17,12 @@ namespace FinanceManagementLifesaver.Interfaces
 {
     public interface IToDoService
     {
-        Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDos();
         Task<ServiceResponse<ToDoSaveDTO>> CreateToDo(ToDoSaveDTO toDo);
-        Task<ServiceResponse<IEnumerable<ToDo>>> GetToDoByUserId(int userId);
-        Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date);
+        Task<ServiceResponse<IEnumerable<ToDo>>> GetAllToDos();
         Task<ServiceResponse<ToDoSaveDTO>> UpdateToDo(ToDoSaveDTO todo);
         Task<ServiceResponse<ToDoIDDTO>> DeleteToDos(int toDoId);
+        Task<ServiceResponse<IEnumerable<ToDo>>> GetToDoByUserId(int userId);
+        Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date);
         Task<ServiceResponse<ToDo>> GetToDoByFilter(DateTime startDate, DateTime endDate);
     }
 }

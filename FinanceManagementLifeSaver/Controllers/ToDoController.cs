@@ -62,5 +62,15 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("ByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<ToDo>>> GetToDoByUserId(int userId)
+        {
+            ServiceResponse<IEnumerable<ToDo>> response = await _todoService.GetToDoByUserId(userId);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }

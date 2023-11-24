@@ -86,6 +86,18 @@ namespace FinanceManagementLifesaver.Services
             response.Data = todo;
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<ToDo>>> GetToDoByUserId(int userId)
+        {
+            ServiceResponse<IEnumerable<ToDo>> response = new ServiceResponse<IEnumerable<ToDo>>();
+            List<ToDo> toDos = (List<ToDo>)await _context.ToDos.Where(u => u.User.Id == userId).ToListAsync();
+            if (!toDos.Any())
+            {
+                response.Success = false;
+                return response;
+            }
+            response.Data = toDos;
+            return response;
+        }
         public Task<ServiceResponse<ToDo>> GetAllToDosByDate(DateTime date)
         {
             throw new NotImplementedException();
@@ -96,9 +108,5 @@ namespace FinanceManagementLifesaver.Services
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResponse<IEnumerable<ToDo>>> GetToDoByUserId(int userId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
