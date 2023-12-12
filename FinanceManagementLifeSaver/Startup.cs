@@ -18,11 +18,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagementLifesaver.BackgroundWorker;
+using System.Runtime.Loader;
 
 namespace FinanceManagementLifesaver
 {
     public class Startup
     {
+        private IBackgroundWorkerService _backgroundWorkerService;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,12 +50,16 @@ namespace FinanceManagementLifesaver
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             JobStorage.Current = new SqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
             services.AddHangfireServer();
-            RecurringJob.AddOrUpdate("ExecuteMonthlyClosing", () => BackgroundWorkerService.ExecuteMonthlyClosing(), "1 2 * * *");
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IBackgroundWorkerService, BackgroundWorkerService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IInvestmentService, InvestmentService>();
             //services.AddScoped<IContactService, ContactService>();
+            var serviceProvider = services.BuildServiceProvider();
+            _backgroundWorkerService = serviceProvider.GetService<IBackgroundWorkerService>();
+            RecurringJob.AddOrUpdate("ExecuteMonthlyClosing", () => _backgroundWorkerService.ExecuteMonthlyClosing(), "0 2 * * *");
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
