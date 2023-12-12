@@ -54,10 +54,10 @@ namespace FinanceManagementLifesaver.Services
                     InvestedMoney = investment.InvestedMoney,
                     InvestmentType = investment.InvestmentType,
                     Account = _account,
-                    RoI = investment.RoI,
+                    GrossIncome = investment.GrossIncome,
                     StartMoney = investment.StartMoney,
                     StartDate = investment.StartDate,
-                    Id = investment.Id
+                    Id = investment.Id,        
                 };
 
                 await _context.Investments.AddAsync(insertInvestment);
@@ -83,7 +83,11 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(AccountIdDTO account)
             {
                 ServiceResponse<IEnumerable<Investment>> response = new ServiceResponse<IEnumerable<Investment>>();
-                List<Investment> investments = (List<Investment>)await _context.Investments.Where(a => a.Id == account.Id).ToListAsync();
+                List<Investment> investments = await _context.Investments.Where(a => a.Id == account.Id).ToListAsync();
+            //    for (int i=0; i<investments.Count(); i++)
+            //{
+            //    investments[i].RoI = ((investments[i].GrossIncome - investments[i].InvestedMoney) / investments[i].InvestedMoney)*100;
+            //}
                 if (!investments.Any())
                 {
                     response.Success = false;
@@ -108,7 +112,7 @@ namespace FinanceManagementLifesaver.Services
                     _investment.StartMoney = investment.StartMoney;
                     _investment.Account = investment.Account;
                     _investment.InvestedMoney = investment.InvestedMoney;
-                    _investment.RoI = investment.RoI;
+                    _investment.GrossIncome = investment.GrossIncome;
                     _investment.InvestmentType = investment.InvestmentType;
                 }
                 var _account = await _context.Users.FirstOrDefaultAsync(a => a.Id == investment.Account.Id);
