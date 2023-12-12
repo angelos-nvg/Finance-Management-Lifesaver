@@ -15,7 +15,15 @@ namespace FinanceManagementLifesaver.Models.BaseClass
         [Column(TypeName = "tinyint")]
         public InvestmentType InvestmentType { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal RoI { get; set; }
+        public decimal GrossIncome { get; set; }
         public Account Account { get; set; }
+        public string Description { get; set; }
+        private decimal _roI;
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal RoI {
+            get { return _roI; }
+            set { _roI = (GrossIncome - InvestedMoney) / InvestedMoney; }
+        }
     }
 }

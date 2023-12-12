@@ -23,7 +23,7 @@ namespace FinanceManagementLifesaver.Controllers
         {
             _accountService = accountService;
         }
-        [HttpPost("ByUserId")]
+        [HttpPost("GetUserAccounts")]
         public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAccountsByUserId(UserIdDTO user)
         {
             ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAccountsByUserId(user);
@@ -33,7 +33,7 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpPost("id")]
+        [HttpPost("GetAccount")]
         public async Task<ActionResult<ServiceResponse<AccountDTO>>> GetAccountById(AccountIdDTO account)
         {
             ServiceResponse<AccountDTO> response = await _accountService.GetAccountById(account);
@@ -43,8 +43,8 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response); // 200 OK mit dem gefundenen Account
         }
-        [HttpPost]
-        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> Post(AccountSaveDTO accountDTO)
+        [HttpPost("AddAccount")]
+        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> AddAccount(AccountSaveDTO accountDTO)
         {
             ServiceResponse<AccountSaveDTO> response = await _accountService.CreateAccount(accountDTO);
             if (!response.Success)
@@ -53,8 +53,8 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Created(Request.HttpContext.ToString(), response);
         }
-        [HttpPut]
-        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> Put(AccountSaveDTO accountDTO)
+        [HttpPut("UpdateAccount")]
+        public async Task<ActionResult<ServiceResponse<AccountSaveDTO>>> UpdateAccount(AccountSaveDTO accountDTO)
         {
             ServiceResponse<AccountSaveDTO> response = await _accountService.UpdateAccount(accountDTO);
             if (!response.Success)
@@ -63,8 +63,8 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpDelete("Delete")]
-        public async Task<ActionResult<ServiceResponse<Account>>> Delete(AccountIdDTO account) {
+        [HttpDelete("DeleteAccount")]
+        public async Task<ActionResult<ServiceResponse<Account>>> DeleteAccount(AccountIdDTO account) {
             ServiceResponse<Account> response = await _accountService.DeleteAccount(account);
             if (!response.Success)
             {

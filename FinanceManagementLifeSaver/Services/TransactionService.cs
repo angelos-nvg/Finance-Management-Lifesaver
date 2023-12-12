@@ -49,7 +49,6 @@ namespace FinanceManagementLifesaver.Services
                 response.Message = "Account not found";
                 return response;
             }
-            //Hotfix
             Transaction _transaction = new Transaction {
                 Amount = (int)transaction.Amount,
                 Description = transaction.Description,
@@ -80,7 +79,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
             ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = (List<Transaction>)await _context.Transactions.Where(a => a.Account.Id == accountId.Id).ToListAsync();
+            List<Transaction> transactions = await _context.Transactions.Where(a => a.Account.Id == accountId.Id).ToListAsync();
             if (!transactions.Any())
             {
                 response.Success = false;
