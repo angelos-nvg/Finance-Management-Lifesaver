@@ -108,6 +108,19 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
+        public async Task<ServiceResponse<List<User>>> GetUsersByScopeId(int scopeId)
+        {
+            ServiceResponse<List<User>> response = new ServiceResponse<List<User>>();
+            List<User> users = await _context.Users.Where(u => u.ScopeId == scopeId).ToListAsync();
+            if(!users.Any())
+            {
+                response.Success = false;
+                return response;  
+            }
+            response.Data = users;
+            return response;
+        }
+
         public async Task<ServiceResponse<UserSaveDTO>> UpdateUser(UserSaveDTO user)
         {
             ServiceResponse<UserSaveDTO> response = new ServiceResponse<UserSaveDTO>();
