@@ -61,6 +61,9 @@ namespace FinanceManagementLifesaver.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("GrossIncome")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<decimal>("InvestedMoney")
                         .HasColumnType("decimal(18, 2)");
 
