@@ -35,6 +35,7 @@ namespace FinanceManagementLifesaver
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddCors();
             services.AddCors(options =>
             {
@@ -73,7 +74,7 @@ namespace FinanceManagementLifesaver
 
 
             services.AddControllers();
-            services.AddAutoMapper(typeof(Startup));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
