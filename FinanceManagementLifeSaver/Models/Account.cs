@@ -3,6 +3,7 @@ using System;
 using FinanceManagementLifesaver.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 using FinanceManagementLifesaver.DTO;
+using System.Text.Json.Serialization;
 
 namespace FinanceManagementLifesaver.Models
 {

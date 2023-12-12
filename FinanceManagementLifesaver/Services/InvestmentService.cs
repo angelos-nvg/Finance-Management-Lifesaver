@@ -84,10 +84,6 @@ namespace FinanceManagementLifesaver.Services
             {
                 ServiceResponse<IEnumerable<Investment>> response = new ServiceResponse<IEnumerable<Investment>>();
                 List<Investment> investments = await _context.Investments.Where(a => a.Id == account.Id).ToListAsync();
-            //    for (int i=0; i<investments.Count(); i++)
-            //{
-            //    investments[i].RoI = ((investments[i].GrossIncome - investments[i].InvestedMoney) / investments[i].InvestedMoney)*100;
-            //}
                 if (!investments.Any())
                 {
                     response.Success = false;
