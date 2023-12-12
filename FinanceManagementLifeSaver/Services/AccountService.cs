@@ -91,6 +91,18 @@ namespace FinanceManagementLifesaver.Services
             response.Data = accounts;
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<Account>>> GetAllAccounts()
+        {
+            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
+            List<Account> accounts = await _context.Accounts.ToListAsync();
+            if (!accounts.Any())
+            {
+                response.Success = false;
+                return response;
+            }
+            response.Data = accounts;
+            return response;
+        }
 
         public async Task<ServiceResponse<AccountSaveDTO>> UpdateAccount(AccountSaveDTO account)
         {
