@@ -31,7 +31,7 @@ namespace FinanceManagementLifesaver.BackgroundWorker
                     foreach (Account acc in response.Data)
                     {
                         decimal amount = await _notificationService.GetMonthlyClosing(acc);
-                        await _notificationService.CreateNotification(amount, acc.UserId, acc.Name, DateTime.Now.AddMonths(-1));
+                        await _notificationService.CreateNotification(amount, acc.User.Id, acc.Name, DateTime.Now.AddMonths(-1));
                     }
                 }
             }

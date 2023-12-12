@@ -4,6 +4,7 @@ using FinanceManagementLifesaver.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 using FinanceManagementLifesaver.DTO;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace FinanceManagementLifesaver.Models
 {
@@ -16,8 +17,8 @@ namespace FinanceManagementLifesaver.Models
         [Column(TypeName = "tinyint")]
         public AccountType AccountType { get; set; }
         [ForeignKey("User")]
-        public int UserId { get; set; }
         public User User { get; set; }
         public int ScopeId { get; set; }
+        
     }
 }

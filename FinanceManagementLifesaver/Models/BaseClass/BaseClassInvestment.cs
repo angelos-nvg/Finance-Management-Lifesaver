@@ -19,6 +19,7 @@ namespace FinanceManagementLifesaver.Models.BaseClass
         [Column(TypeName = "decimal(18, 2)")]
         public decimal GrossIncome { get; set; }
         public string Description { get; set; }
+        [NotMapped]
         public Account Account { get; set; }
         [NotMapped]
         private decimal _roI;
