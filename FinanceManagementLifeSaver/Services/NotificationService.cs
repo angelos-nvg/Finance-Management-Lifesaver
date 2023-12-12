@@ -2,6 +2,7 @@
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Interfaces.ObserverInterfaces;
 using FinanceManagementLifesaver.Models;
+using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
@@ -15,13 +16,27 @@ namespace FinanceManagementLifesaver.Services
     public class NotificationService : INotificationService
     {
         public readonly DataContext _context;
-        public NotificationService(DataContext dbContext)
+        private readonly IUserService _userService;
+        public NotificationService(DataContext dbContext, IUserService userService)
         {
             _context = dbContext;
+            _userService = userService;
         }
-        public async Task<string> CreateNotification(decimal closing, int userId, string accountName, DateTime month)
+        public async Task<string> CreateMonthlyClosingNotification(decimal closing, int userId, string accountName, DateTime month)
         {
             string message = "Your monthly closing amounts " + closing + " in " + month.ToString("MMMM") + " for the Account " + accountName;
+            Notification notification = new Notification
+            {
+                Message = message,
+                UserId = userId
+            };
+            await _context.AddAsync(notification);
+            await _context.SaveChangesAsync();
+            return "moin";
+        }
+        public async Task<string> CreateNegativeAccountBalanceNotification(decimal accountBalance, int userId, string accountName)
+        {
+            string message = "Your Account \"" + accountName + "\" has a negative Account Balance of " + accountBalance;
             Notification notification = new Notification
             {
                 Message = message,
@@ -58,6 +73,18 @@ namespace FinanceManagementLifesaver.Services
                 closing += transaction.Amount;
             }
             return closing;
+        }
+        public async Task<string> CheckIfAccountBalanceNegative(Account account)
+        {
+            if (account.AccountBalance < 0m)
+            {
+                ServiceResponse<List<User>> GetUserResponse = await _userService.GetUsersByScopeId(account.ScopeId);
+                foreach (User user in GetUserResponse.Data)
+                {
+                    await CreateNegativeAccountBalanceNotification(account.AccountBalance, user.Id, account.Name);
+                }
+            }
+            return "moin";
         }
     }
     public class SubjectBase
