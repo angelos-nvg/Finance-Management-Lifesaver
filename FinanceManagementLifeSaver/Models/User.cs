@@ -14,10 +14,6 @@ namespace FinanceManagementLifesaver.Models
     {
         [NotMapped]
         public INotificationService _notificationService;
-        public User() { 
-
-        }
-
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

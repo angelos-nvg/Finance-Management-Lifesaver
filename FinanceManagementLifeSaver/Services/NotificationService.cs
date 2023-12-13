@@ -35,7 +35,7 @@ namespace FinanceManagementLifesaver.Services
             };
             await _context.AddAsync(notification);
             await _context.SaveChangesAsync();
-            return "moin";
+            return ".";
         }
         public async Task<string> CreateNotification(string message, int userId)
         {
@@ -47,7 +47,7 @@ namespace FinanceManagementLifesaver.Services
             };
             await _context.AddAsync(notification);
             await _context.SaveChangesAsync();
-            return "moin";
+            return ".";
         }
 
         public async Task<decimal> GetMonthlyClosing(Account account)
