@@ -1,15 +1,18 @@
 ﻿using FinanceManagementLifesaver.Data;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Interfaces.ObserverInterfaces;
+using FinanceManagementLifesaver.Migrations;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Account = FinanceManagementLifesaver.Models.Account;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -34,19 +37,19 @@ namespace FinanceManagementLifesaver.Services
             await _context.SaveChangesAsync();
             return "moin";
         }
-        public async Task<string> CreateNegativeAccountBalanceNotification(decimal accountBalance, int userId, string accountName)
+        public async Task<string> CreateNotification(string message, int userId)
         {
-            string message = "Your Account \"" + accountName + "\" has a negative Account Balance of " + accountBalance;
+            string _message = message;
             Notification notification = new Notification
             {
-                Message = message,
+                Message = _message,
                 UserId = userId
             };
             await _context.AddAsync(notification);
             await _context.SaveChangesAsync();
             return "moin";
         }
-   
+
         public async Task<decimal> GetMonthlyClosing(Account account)
         {
             //first day of last month
@@ -63,7 +66,7 @@ namespace FinanceManagementLifesaver.Services
             endDate = endDate.AddSeconds(-endDate.Second).AddSeconds(59);
             //Get all transactions of last month
             List<Transaction> transactions = await _context.Transactions.Where(
-                t=> t.Account.Id == account.Id
+                t => t.Account.Id == account.Id
                 && t.Date.Month == startDate.Month
                 && t.Date.Day >= startDate.Day
                 && t.Date.Day <= endDate.Day).ToListAsync();
@@ -81,29 +84,12 @@ namespace FinanceManagementLifesaver.Services
                 ServiceResponse<List<User>> GetUserResponse = await _userService.GetUsersByScopeId(account.ScopeId);
                 foreach (User user in GetUserResponse.Data)
                 {
-                    await CreateNegativeAccountBalanceNotification(account.AccountBalance, user.Id, account.Name);
+                    account.Attach(user);
+                    user._notificationService = this;
+                    account.Notify("Your Account \"" + account.Name + "\" has a negative Account Balance of " + account.AccountBalance);
                 }
             }
-            return "moin";
-        }
-    }
-    public class SubjectBase
-    {
-        public List<IObserver> _observers { get; set; }
-        public void Attach(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-        public void Detach(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
-        public void Notify(string message)
-        {
-            foreach (IObserver observer in _observers)
-            {
-                observer.update(message);
-            }
+            return ".";
         }
     }
 }

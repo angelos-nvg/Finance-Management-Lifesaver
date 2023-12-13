@@ -8,6 +8,7 @@ namespace FinanceManagementLifesaver.Interfaces
     {
         public Task<decimal> GetMonthlyClosing(Account account);
         public Task<string> CreateMonthlyClosingNotification(decimal closing, int userId, string accountName, DateTime month);
+        public Task<string> CreateNotification(string message, int userId);
         public Task<string> CheckIfAccountBalanceNegative(Account account);
     }
 }
