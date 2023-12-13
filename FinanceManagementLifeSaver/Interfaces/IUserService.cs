@@ -16,5 +16,6 @@ namespace FinanceManagementLifesaver.Interfaces
         Task<ServiceResponse<User>> DeleteUser(int userId);
         Task<ServiceResponse<IEnumerable<User>>> GetAllUsers();
         Task<ServiceResponse<List<User>>> GetUsersByScopeId(int scopeId);
+        Task<ServiceResponse<User>> GetUserByEmail(string email);
     }
 }

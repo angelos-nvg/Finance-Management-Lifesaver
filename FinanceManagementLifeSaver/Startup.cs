@@ -42,7 +42,8 @@ namespace FinanceManagementLifesaver
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://vmentvs05")
+                        //builder.WithOrigins("http://vmentvs05")
+                        builder.AllowAnyOrigin()
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });
