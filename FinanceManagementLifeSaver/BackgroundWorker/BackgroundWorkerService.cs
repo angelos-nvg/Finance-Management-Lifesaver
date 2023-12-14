@@ -37,7 +37,7 @@ namespace FinanceManagementLifesaver.BackgroundWorker
                         ServiceResponse<List<User>> GetUserResponse = await _userService.GetUsersByScopeId(acc.ScopeId);
                         foreach (User user in GetUserResponse.Data)
                         {
-                            await _notificationService.CreateNotification(amount, user.Id, acc.Name, DateTime.Now.AddMonths(-1));
+                            await _notificationService.CreateMonthlyClosingNotification(amount, user.Id, acc.Name, DateTime.Now.AddMonths(-1));
                         }
                     }
                 }

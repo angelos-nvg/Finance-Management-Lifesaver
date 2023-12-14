@@ -6,6 +6,6 @@ namespace FinanceManagementLifesaver.Interfaces.ObserverInterfaces
     {
         public void Attach(IObserver subscriber);
         public void Detach(IObserver subscriber);
-        public void Notify();
+        public void Notify(string message);
     }
 }

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Validations;
+using Microsoft.AspNetCore.Routing.Matching;
 
 namespace FinanceManagementLifesaver.Services
 {
@@ -19,10 +20,11 @@ namespace FinanceManagementLifesaver.Services
 	{
 		private readonly DataContext _context;
         private readonly IMapper _mapper;
-
-        public AccountService(IMapper mapper, DataContext context)
+        private readonly INotificationService _notificationService;
+        public AccountService(IMapper mapper, INotificationService notificationService, DataContext context)
         {
             _mapper = mapper;
+            _notificationService = notificationService;
             _context = context;
         }
 
@@ -124,7 +126,9 @@ namespace FinanceManagementLifesaver.Services
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
-            _account.User = new User { Id =  account.UserId };
+            //_account.User = new User { Id =  account.UserId };
+            _account.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
+            _account.ScopeId = account.ScopeId;
 
             //Validation
             AccountValidation validator = new AccountValidation();
@@ -142,6 +146,7 @@ namespace FinanceManagementLifesaver.Services
 
             _context.Accounts.Update(_account);
             await _context.SaveChangesAsync();
+            await _notificationService.CheckIfAccountBalanceNegative(_account);
             response.Data = account;
 			return response;
         }
