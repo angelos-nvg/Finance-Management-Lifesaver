@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinanceManagementLifesaver.DTO;
+using FinanceManagementLifesaver.DTO.UserDTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
@@ -19,11 +20,13 @@ namespace FinanceManagementLifesaver.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper, INotificationService notificationService)
         {
             _userService = userService;
             _mapper = mapper;
+            _notificationService = notificationService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
@@ -37,7 +40,7 @@ namespace FinanceManagementLifesaver.Controllers
             ServiceResponse<User> response = await _userService.GetUserByEmailAndPassword(user);
             if (!response.Success)
             {
-                return NotFound();
+                return NotFound(response);
             }
             return Ok(response);
         }
@@ -70,6 +73,20 @@ namespace FinanceManagementLifesaver.Controllers
                 return NotFound(response);
             }
             return Ok(response);
+        }
+        [HttpPost("ReportFailedLogin")]
+        public async Task<IActionResult> ReportFailedLogin(FailedLoginDTO failedLoginDTO)
+        {
+            ServiceResponse<User> response = await _userService.GetUserByEmail(failedLoginDTO.Email);
+            if (!response.Success)
+            {
+                return NotFound();
+            }
+            await _notificationService.CreateNotification(
+                "Someone tried to log into your Account from " + failedLoginDTO.City + "," + failedLoginDTO.Country,
+                response.Data.Id
+                );
+            return Ok();
         }
     }
 }
