@@ -2,6 +2,7 @@
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
+using FinanceManagementLifesaver.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,11 +13,13 @@ namespace FinanceManagementLifesaver.BackgroundWorker
     {
         private readonly INotificationService _notificationService;
         private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
         private readonly DataContext _context;
-        public BackgroundWorkerService(INotificationService notificationService, IAccountService accountService, DataContext context)
+        public BackgroundWorkerService(INotificationService notificationService, IAccountService accountService, IUserService userService, DataContext context)
         {
             _notificationService = notificationService;
             _accountService = accountService;
+            _userService = userService;
             _context = context;
         }
 
@@ -25,17 +28,21 @@ namespace FinanceManagementLifesaver.BackgroundWorker
             DateTime dateTime = DateTime.Now;
             if (dateTime.Day == 1) 
             {
-                ServiceResponse<IEnumerable<Account>> response = await _accountService.GetAllAccounts();
-                if (response.Success)
+                ServiceResponse<IEnumerable<Account>> GetAccResponse = await _accountService.GetAllAccounts();
+                if (GetAccResponse.Success)
                 {
-                    foreach (Account acc in response.Data)
+                    foreach (Account acc in GetAccResponse.Data)
                     {
                         decimal amount = await _notificationService.GetMonthlyClosing(acc);
-                        await _notificationService.CreateNotification(amount, acc.User.Id, acc.Name, DateTime.Now.AddMonths(-1));
+                        ServiceResponse<List<User>> GetUserResponse = await _userService.GetUsersByScopeId(acc.ScopeId);
+                        foreach (User user in GetUserResponse.Data)
+                        {
+                            await _notificationService.CreateMonthlyClosingNotification(amount, user.Id, acc.Name, DateTime.Now.AddMonths(-1));
+                        }
                     }
                 }
             }
-            return "moin";
+            return ".";
         }
     }
 }

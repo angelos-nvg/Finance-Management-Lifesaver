@@ -104,7 +104,29 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email && u.Password == userLoginDTO.Password);
+            if (user == null)
+            {
+                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email);
+                if (user != null)
+                {
+                    response.Message = "wrong password";// die message soll im frontend geprüft werden deswegen nicht ändern danke
+                }
+                response.Success = false;
+            }
             response.Data = user;
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<User>>> GetUsersByScopeId(int scopeId)
+        {
+            ServiceResponse<List<User>> response = new ServiceResponse<List<User>>();
+            List<User> users = await _context.Users.Where(u => u.ScopeId == scopeId).ToListAsync();
+            if(!users.Any())
+            {
+                response.Success = false;
+                return response;  
+            }
+            response.Data = users;
             return response;
         }
 
@@ -144,6 +166,18 @@ namespace FinanceManagementLifesaver.Services
 
             _context.Users.Update(_user);
             await _context.SaveChangesAsync();
+            response.Data = user;
+            return response;
+        }
+        public async Task<ServiceResponse<User>> GetUserByEmail(string email)
+        {
+            ServiceResponse<User> response = new ServiceResponse<User>();
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                response.Success = false;
+                return response;
+            }
             response.Data = user;
             return response;
         }
