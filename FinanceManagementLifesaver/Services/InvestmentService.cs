@@ -7,6 +7,7 @@ using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
 using FinanceManagementLifesaver.Validations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,18 +81,19 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(AccountIdDTO account)
+        public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByAccountId(AccountIdDTO account)
             {
-                ServiceResponse<IEnumerable<Investment>> response = new ServiceResponse<IEnumerable<Investment>>();
-                List<Investment> investments = await _context.Investments.Where(i => i.Account.Id == account.Value).ToListAsync();
+                ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
+                List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == account.Value).ToListAsync());
                 if (!investments.Any())
                 {
                     response.Success = false;
+                    response.Message = "No Investment on this account";
                     return response;
                 }
                 response.Data = investments;
                 return response;
-            }
+        }
 
             public async Task<ServiceResponse<InvestmentDTO>> UpdateInvestment(InvestmentDTO investment)
             {
