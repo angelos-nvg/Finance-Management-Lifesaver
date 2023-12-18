@@ -76,10 +76,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
-            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = await _context.Transactions.Where(a => a.Account.Id == accountId.Value).ToListAsync();
+            ServiceResponse<IEnumerable<TransactionDTO>> response = new ServiceResponse<IEnumerable<TransactionDTO>>();
+            List<TransactionDTO> transactions =_mapper.Map<List<TransactionDTO>>(await _context.Transactions.Where(a => a.Account.Id == accountId.Value).ToListAsync());
             if (!transactions.Any())
             {
                 response.Success = false;
