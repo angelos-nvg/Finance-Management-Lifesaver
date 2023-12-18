@@ -157,8 +157,7 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
             List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == scope.Value).ToListAsync());
-            investments.OrderByDescending(i => i.RoI);
-            response.Data = investments;
+            response.Data = investments.OrderByDescending(i => i.RoI);
             return response;
         }
         public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsTillMonthBack(InvestmentTimeDTO ITD)
