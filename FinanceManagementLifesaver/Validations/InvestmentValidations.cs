@@ -9,7 +9,7 @@ namespace FinanceManagementLifesaver.Validations
         public InvestmentValidations() {
             RuleSet("Enums", () =>
             {
-                RuleFor(i => i.InvestmentType).IsInEnum().WithMessage("Keine richtiger Investitionstyp");
+                RuleFor(i => i.InvestmentType).IsInEnum().WithMessage("Kein richtiger Investitionstyp");
             });
 
             RuleSet("Dates", () =>
@@ -18,7 +18,6 @@ namespace FinanceManagementLifesaver.Validations
             });
             RuleSet("Money", () =>
             {
-                RuleFor(i => i.RoI).ExclusiveBetween(0, 999999999).WithMessage("Muss eine angemessene Zahl sein");
                 RuleFor(i => i.StartMoney).ExclusiveBetween(0, 999999999).WithMessage("Muss eine angemessene Zahl sein");
                 RuleFor(i => i.InvestedMoney).ExclusiveBetween(0, 999999999).WithMessage("Muss eine angemessene Zahl sein");
             });

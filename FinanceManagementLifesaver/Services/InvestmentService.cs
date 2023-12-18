@@ -157,7 +157,7 @@ namespace FinanceManagementLifesaver.Services
         {
             ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
             List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == scope.Value).ToListAsync());
-            investments.OrderBy(i => i.RoI);
+            investments.OrderByDescending(i => i.RoI);
             response.Data = investments;
             return response;
         }
