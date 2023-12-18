@@ -81,10 +81,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(UserIdDTO user)
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(UserIdDTO user)
         {
-            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
-            List<Account> accounts = await _context.Accounts.Where(u => u.User.Id == user.Value).ToListAsync();
+            ServiceResponse<IEnumerable<AccountDTO>> response = new ServiceResponse<IEnumerable<AccountDTO>>();
+            List<AccountDTO> accounts = _mapper.Map<List<AccountDTO>>(await _context.Accounts.Where(u => u.User.Id == user.Value).ToListAsync());
             if (!accounts.Any())
             {
                 response.Success = false;
@@ -93,10 +93,10 @@ namespace FinanceManagementLifesaver.Services
             response.Data = accounts;
             return response;
         }
-        public async Task<ServiceResponse<IEnumerable<Account>>> GetAllAccounts()
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAllAccounts()
         {
-            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
-            List<Account> accounts = await _context.Accounts.ToListAsync();
+            ServiceResponse<IEnumerable<AccountDTO>> response = new ServiceResponse<IEnumerable<AccountDTO>>();
+            List<AccountDTO> accounts = _mapper.Map<List<AccountDTO>>(await _context.Accounts.ToListAsync());
             if (!accounts.Any())
             {
                 response.Success = false;
@@ -126,7 +126,6 @@ namespace FinanceManagementLifesaver.Services
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
-            //_account.User = new User { Id =  account.UserId };
             _account.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
             _account.ScopeId = account.ScopeId;
 
