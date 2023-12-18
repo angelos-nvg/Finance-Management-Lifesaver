@@ -23,9 +23,9 @@ namespace FinanceManagementLifesaver.Models.BaseClass
 
         [NotMapped]
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal RoI
+        public string RoI
         {
-            get { return _roI; }
+            get { return _roI.ToString("D4"); }
             set { _roI = (GrossIncome - InvestedMoney) / InvestedMoney; }
         }
     }
