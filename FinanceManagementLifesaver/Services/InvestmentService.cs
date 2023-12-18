@@ -67,10 +67,10 @@ namespace FinanceManagementLifesaver.Services
             }
 
 
-        public async Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int investmentId)
+        public async Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(InvestmentIdDTO investmentId)
         {
             ServiceResponse<InvestmentDTO> response = new ServiceResponse<InvestmentDTO>();
-            Investment investment = await _context.Investments.FirstOrDefaultAsync(u => u.Id == investmentId);
+            Investment investment = await _context.Investments.FirstOrDefaultAsync(u => u.Id == investmentId.Value);
             if (investment == null)
             {
                 response.Success = false;
@@ -83,11 +83,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(AccountIdDTO account)
             {
                 ServiceResponse<IEnumerable<Investment>> response = new ServiceResponse<IEnumerable<Investment>>();
-                List<Investment> investments = await _context.Investments.Where(a => a.Id == account.Id).ToListAsync();
-            //    for (int i=0; i<investments.Count(); i++)
-            //{
-            //    investments[i].RoI = ((investments[i].GrossIncome - investments[i].InvestedMoney) / investments[i].InvestedMoney)*100;
-            //}
+                List<Investment> investments = await _context.Investments.Where(i => i.Account.Id == account.Value).ToListAsync();
                 if (!investments.Any())
                 {
                     response.Success = false;
@@ -160,7 +156,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<InvestmentDTO>>> GetInvestmentsByRoI(InvestmentIdDTO scope)
         {
             ServiceResponse<IEnumerable<InvestmentDTO>> response = new ServiceResponse<IEnumerable<InvestmentDTO>>();
-            List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == scope.Id).ToListAsync());
+            List<InvestmentDTO> investments = _mapper.Map<List<InvestmentDTO>>(await _context.Investments.Where(i => i.Account.Id == scope.Value).ToListAsync());
             investments.OrderBy(i => i.RoI);
             response.Data = investments;
             return response;

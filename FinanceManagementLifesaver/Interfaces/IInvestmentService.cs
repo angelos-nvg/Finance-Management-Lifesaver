@@ -9,7 +9,7 @@ namespace FinanceManagementLifesaver.Interfaces
     public interface IInvestmentService
     {
         Task<ServiceResponse<InvestmentDTO>> CreateInvestment(InvestmentDTO investment);
-        Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(int investmentId);
+        Task<ServiceResponse<InvestmentDTO>> GetInvestmentById(InvestmentIdDTO investmentId);
         Task<ServiceResponse<IEnumerable<Investment>>> GetInvestmentsByAccountId(AccountIdDTO accountId);
         Task<ServiceResponse<InvestmentDTO>> UpdateInvestment(InvestmentDTO investment);
         Task<ServiceResponse<Investment>> DeleteInvestment(int investmentId);

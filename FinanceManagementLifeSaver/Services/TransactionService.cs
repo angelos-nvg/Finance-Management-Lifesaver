@@ -65,7 +65,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Value);
             if (transaction == null)
             {
                 response.Success = false;
@@ -79,7 +79,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
             ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = await _context.Transactions.Where(a => a.Account.Id == accountId.Id).ToListAsync();
+            List<Transaction> transactions = await _context.Transactions.Where(a => a.Account.Id == accountId.Value).ToListAsync();
             if (!transactions.Any())
             {
                 response.Success = false;
@@ -130,7 +130,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionDTO>> DeleteTransaction(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Id);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Value);
             if (transaction == null)
             {
                 response.Success = false;
