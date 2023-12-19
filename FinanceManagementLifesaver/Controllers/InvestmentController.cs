@@ -25,7 +25,7 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpPost("InvestmentsByAccount")]
         public async Task<ActionResult<IEnumerable<InvestmentDTO>>> GetInvestmentsByAccountId(AccountIdDTO accountId)
         {
-            ServiceResponse<IEnumerable<Investment>> response = await _investmentService.GetInvestmentsByAccountId(accountId);
+            ServiceResponse<IEnumerable<InvestmentDTO>> response = await _investmentService.GetInvestmentsByAccountId(accountId);
             if (!response.Success)
             {
                 return NotFound();
@@ -35,7 +35,7 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpPost("GetInvestment")]
         public async Task<ActionResult<ServiceResponse<InvestmentDTO>>> GetInvestmentById(InvestmentIdDTO investment)
         {
-            ServiceResponse<InvestmentDTO> response = await _investmentService.GetInvestmentById(investment.Id);
+            ServiceResponse<InvestmentDTO> response = await _investmentService.GetInvestmentById(investment);
             if (!response.Success)
             {
                 return NotFound();

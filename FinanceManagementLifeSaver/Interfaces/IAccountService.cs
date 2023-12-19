@@ -13,8 +13,8 @@ namespace FinanceManagementLifesaver.Interfaces
     {
         Task<ServiceResponse<AccountSaveDTO>> CreateAccount(AccountSaveDTO account);
         Task<ServiceResponse<AccountDTO>> GetAccountById(AccountIdDTO accountId);
-        Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(UserIdDTO userId);
-        Task<ServiceResponse<IEnumerable<Account>>> GetAllAccounts();
+        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(UserIdDTO userId);
+        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAllAccounts();
         Task<ServiceResponse<AccountSaveDTO>> UpdateAccount(AccountSaveDTO account);
         Task<ServiceResponse<Account>> DeleteAccount(AccountIdDTO accountId);
     }

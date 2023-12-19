@@ -46,7 +46,7 @@ namespace FinanceManagementLifesaver.Services
             if (account == null)
             {
                 response.Success = false;
-                response.Message = "Account not found";
+                response.Message = "Konto wurde nicht gefunden";
                 return response;
             }
             Transaction _transaction = new Transaction {
@@ -65,21 +65,21 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionDTO>> GetTransactionById(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Id);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId.Value);
             if (transaction == null)
             {
                 response.Success = false;
-                response.Message = "Transaction not Found";
+                response.Message = "Transaktion konnte nicht gefunden";
                 return response;
             }
             response.Data = _mapper.Map<Transaction, TransactionDTO>(transaction);
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Transaction>>> GetTransactionsByAccountId(AccountIdDTO accountId)
+        public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO accountId)
         {
-            ServiceResponse<IEnumerable<Transaction>> response = new ServiceResponse<IEnumerable<Transaction>>();
-            List<Transaction> transactions = await _context.Transactions.Where(a => a.Account.Id == accountId.Id).ToListAsync();
+            ServiceResponse<IEnumerable<TransactionDTO>> response = new ServiceResponse<IEnumerable<TransactionDTO>>();
+            List<TransactionDTO> transactions =_mapper.Map<List<TransactionDTO>>(await _context.Transactions.Where(a => a.Account.Id == accountId.Value).ToListAsync());
             if (!transactions.Any())
             {
                 response.Success = false;
@@ -101,7 +101,7 @@ namespace FinanceManagementLifesaver.Services
             if (account == null)
             {
                 response.Success = false;
-                response.Message = "Account not found";
+                response.Message = "Konto konnte nicht gefunden werden";
                 return response;
             }
             _transaction.Amount = transaction.Amount;
@@ -130,7 +130,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<TransactionDTO>> DeleteTransaction(TransactionIdDTO transactionId)
         {
             ServiceResponse<TransactionDTO> response = new ServiceResponse<TransactionDTO>();
-            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Id);
+            Transaction transaction = await _context.Transactions.FirstOrDefaultAsync(u => u.Id == transactionId.Value);
             if (transaction == null)
             {
                 response.Success = false;

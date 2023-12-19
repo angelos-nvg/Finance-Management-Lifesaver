@@ -1,4 +1,5 @@
 ﻿using FinanceManagementLifesaver.Data;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Models;
 using FinanceManagementLifesaver.ServiceResponse;
@@ -28,10 +29,10 @@ namespace FinanceManagementLifesaver.BackgroundWorker
             DateTime dateTime = DateTime.Now;
             if (dateTime.Day == 1) 
             {
-                ServiceResponse<IEnumerable<Account>> GetAccResponse = await _accountService.GetAllAccounts();
+                ServiceResponse<IEnumerable<AccountDTO>> GetAccResponse = await _accountService.GetAllAccounts();
                 if (GetAccResponse.Success)
                 {
-                    foreach (Account acc in GetAccResponse.Data)
+                    foreach (AccountDTO acc in GetAccResponse.Data)
                     {
                         decimal amount = await _notificationService.GetMonthlyClosing(acc);
                         ServiceResponse<List<User>> GetUserResponse = await _userService.GetUsersByScopeId(acc.ScopeId);

@@ -74,7 +74,7 @@ namespace FinanceManagementLifesaver.Controllers
             }
             return Ok(response);
         }
-        [HttpPost("ReportFailedLogin")]
+        [HttpPost("ReportFailedLogin[WIP]")]
         public async Task<IActionResult> ReportFailedLogin(FailedLoginDTO failedLoginDTO)
         {
             ServiceResponse<User> response = await _userService.GetUserByEmail(failedLoginDTO.Email);

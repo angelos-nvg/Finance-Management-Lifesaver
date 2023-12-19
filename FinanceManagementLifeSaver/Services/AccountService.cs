@@ -71,7 +71,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<AccountDTO>> GetAccountById(AccountIdDTO accountId)
         {
 			ServiceResponse<AccountDTO> response = new ServiceResponse<AccountDTO>();
-            Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId.Id);
+            Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId.Value);
             if (account == null)
             {
                 response.Success = false;
@@ -81,10 +81,10 @@ namespace FinanceManagementLifesaver.Services
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Account>>> GetAccountsByUserId(UserIdDTO user)
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountsByUserId(UserIdDTO user)
         {
-            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
-            List<Account> accounts = await _context.Accounts.Where(u => u.User.Id == user.Id).ToListAsync();
+            ServiceResponse<IEnumerable<AccountDTO>> response = new ServiceResponse<IEnumerable<AccountDTO>>();
+            List<AccountDTO> accounts = _mapper.Map<List<AccountDTO>>(await _context.Accounts.Where(u => u.User.Id == user.Value).ToListAsync());
             if (!accounts.Any())
             {
                 response.Success = false;
@@ -93,10 +93,10 @@ namespace FinanceManagementLifesaver.Services
             response.Data = accounts;
             return response;
         }
-        public async Task<ServiceResponse<IEnumerable<Account>>> GetAllAccounts()
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAllAccounts()
         {
-            ServiceResponse<IEnumerable<Account>> response = new ServiceResponse<IEnumerable<Account>>();
-            List<Account> accounts = await _context.Accounts.ToListAsync();
+            ServiceResponse<IEnumerable<AccountDTO>> response = new ServiceResponse<IEnumerable<AccountDTO>>();
+            List<AccountDTO> accounts = _mapper.Map<List<AccountDTO>>(await _context.Accounts.ToListAsync());
             if (!accounts.Any())
             {
                 response.Success = false;
@@ -113,20 +113,19 @@ namespace FinanceManagementLifesaver.Services
             if (_account == null)
             {
                 response.Success = false;
-                response.Message = "Account not found";
+                response.Message = "Konto nicht gefunden";
                 return response;
             }
             var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
             if (_user == null)
             {
                 response.Success = false;
-                response.Message = "User not found";
+                response.Message = "Benutzer nicht gefunden";
                 return response;
             }
             _account.AccountBalance = account.AccountBalance;
             _account.AccountType = account.AccountType;
             _account.Name = account.Name;
-            //_account.User = new User { Id =  account.UserId };
             _account.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
             _account.ScopeId = account.ScopeId;
 
@@ -154,7 +153,7 @@ namespace FinanceManagementLifesaver.Services
         public async Task<ServiceResponse<Account>> DeleteAccount(AccountIdDTO accountId)
 		{
 			ServiceResponse<Account> response = new ServiceResponse<Account>();
-			Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId.Id);
+			Account account = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == accountId.Value);
             if (account == null)
             {
                 response.Success = false;

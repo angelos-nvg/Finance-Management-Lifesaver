@@ -109,7 +109,8 @@ namespace FinanceManagementLifesaver.Services
                 user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email);
                 if (user != null)
                 {
-                    response.Message = "wrong password";// die message soll im frontend geprüft werden deswegen nicht ändern danke
+                    response.Message = "wrong password";// Die message soll im frontend geprüft werden deswegen nicht ändern danke
+                                                        // Die Kommentare bitte mit angemessener Rechtschreibung schreiben, danke!
                 }
                 response.Success = false;
             }
@@ -141,7 +142,7 @@ namespace FinanceManagementLifesaver.Services
             if (_user == null)
             {
                 response.Success = false;
-                response.Message = "User not found";
+                response.Message = "Der Benutzer wurde nicht gefunden";
                 return response;
             }
 
@@ -149,7 +150,7 @@ namespace FinanceManagementLifesaver.Services
             if (await UserValidations.CheckIfEmailTaken(_context, user.Email, user.Id))
             {
                 response.Success = false;
-                response.Message = "Email already taken";
+                response.Message = "Diese Email ist bereits in Verwendung";
                 return response;
             }
             UserValidations validator = new UserValidations();

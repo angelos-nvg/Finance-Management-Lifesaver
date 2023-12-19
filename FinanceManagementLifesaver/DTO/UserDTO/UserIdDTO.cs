@@ -2,6 +2,6 @@
 {
     public class UserIdDTO
     {
-        public int Id { get; set; }
+        public int Value { get; set; }
     }
 }

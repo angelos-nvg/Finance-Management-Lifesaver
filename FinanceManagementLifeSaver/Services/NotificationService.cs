@@ -1,4 +1,5 @@
 ﻿using FinanceManagementLifesaver.Data;
+using FinanceManagementLifesaver.DTO.AccountDTO;
 using FinanceManagementLifesaver.Interfaces;
 using FinanceManagementLifesaver.Interfaces.ObserverInterfaces;
 using FinanceManagementLifesaver.Migrations;
@@ -50,7 +51,7 @@ namespace FinanceManagementLifesaver.Services
             return ".";
         }
 
-        public async Task<decimal> GetMonthlyClosing(Account account)
+        public async Task<decimal> GetMonthlyClosing(AccountDTO account)
         {
             //first day of last month
             DateTime startDate = DateTime.Now.AddMonths(-1);
