@@ -32,7 +32,7 @@ namespace FinanceManagementLifesaver.Services
                 var _account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == investment.Account.Id);
                 if (_account == null)
                 {
-                    response.Message = "Benutzer wurde nicht gefunden";
+                    response.Message = "Konto wurde nicht gefunden";
                     return response;
                 }
 
@@ -88,7 +88,7 @@ namespace FinanceManagementLifesaver.Services
                 if (!investments.Any())
                 {
                     response.Success = false;
-                    response.Message = "No Investment on this account";
+                    response.Message = "Auf diesem Konto wurde noch kein Investment getätigt";
                     return response;
                 }
                 response.Data = investments;
@@ -102,7 +102,7 @@ namespace FinanceManagementLifesaver.Services
                 if (_investment == null)
                 {
                     response.Success = false;
-                    response.Message = "Investment not found";
+                    response.Message = "Investment nicht gefunden";
                     return response;
                 }else
                 {
@@ -117,7 +117,7 @@ namespace FinanceManagementLifesaver.Services
                 if (_account == null)
                 {
                     response.Success = false;
-                    response.Message = "Account not found";
+                    response.Message = "Konto wurde nicht gefunden";
                     return response;
                 }
 

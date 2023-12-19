@@ -27,7 +27,7 @@ namespace FinanceManagementLifesaver.Controllers
         [HttpPost("TransactionsByAccount")]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsByAccountId(AccountIdDTO account)
         {
-            ServiceResponse<IEnumerable<Transaction>>response = await _transactionService.GetTransactionsByAccountId(account);
+            ServiceResponse<IEnumerable<TransactionDTO>>response = await _transactionService.GetTransactionsByAccountId(account);
             if (!response.Success)
             {
                 return NotFound();

@@ -46,7 +46,7 @@ namespace FinanceManagementLifesaver.Services
             if (account == null)
             {
                 response.Success = false;
-                response.Message = "Account not found";
+                response.Message = "Konto wurde nicht gefunden";
                 return response;
             }
             Transaction _transaction = new Transaction {
@@ -69,7 +69,7 @@ namespace FinanceManagementLifesaver.Services
             if (transaction == null)
             {
                 response.Success = false;
-                response.Message = "Transaction not Found";
+                response.Message = "Transaktion konnte nicht gefunden";
                 return response;
             }
             response.Data = _mapper.Map<Transaction, TransactionDTO>(transaction);
@@ -101,7 +101,7 @@ namespace FinanceManagementLifesaver.Services
             if (account == null)
             {
                 response.Success = false;
-                response.Message = "Account not found";
+                response.Message = "Konto konnte nicht gefunden werden";
                 return response;
             }
             _transaction.Amount = transaction.Amount;

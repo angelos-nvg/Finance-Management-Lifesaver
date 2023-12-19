@@ -113,14 +113,14 @@ namespace FinanceManagementLifesaver.Services
             if (_account == null)
             {
                 response.Success = false;
-                response.Message = "Account not found";
+                response.Message = "Konto nicht gefunden";
                 return response;
             }
             var _user = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
             if (_user == null)
             {
                 response.Success = false;
-                response.Message = "User not found";
+                response.Message = "Benutzer nicht gefunden";
                 return response;
             }
             _account.AccountBalance = account.AccountBalance;
